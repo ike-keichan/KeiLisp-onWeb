@@ -26,7 +26,7 @@ export class StreamManager extends Object
         return this;
     }
 
-    getStream(aString)
+    getStream()
     {
         let aPrintStream = null;
         if(this.isTrace){ return this.traceStream(); }
@@ -89,7 +89,7 @@ export class StreamManager extends Object
     spy(aSymbol, aString)
     {
         let aPrintStream = null;
-        aPrintStream = this.getStream(aString);
+        aPrintStream = this.getStream();
         if(aPrintStream != null)
         {
             this.spyTable_().set(aSymbol, aString);
@@ -116,13 +116,11 @@ export class StreamManager extends Object
     }
 
 
-    trace(aString)
+    trace()
     {
         let aPrintStream = null;
-
         this.noTrace();
-        aPrintStream = this.getStream(aString);
-        if(aPrintStream == null){ aPrintStream = this.getStream("default") }
+        aPrintStream = this.getStream();
         this.setTraceStream(aPrintStream);
         this.setIsTrace(true);
 
