@@ -8,7 +8,7 @@ Version： 1.0 (2020/12/4)
 ## About program
 Hello! I am developing it as a graduation research project of "Special Research on Computer Science and Engineering IIA/IIB" in Department of Computer Science and Engineering, Kyoto Sangyo University. 
 
-This is an interpreter that mimics Lisp.
+This is an interpreter that mimics Lisp. The interpreter can be started right [here](https://ike-keichan.github.io/KeiLisp-onWeb/).
 I hope this will be the beginning of your encounter with Lisp and functional programming.
 This program is intended to be run in a web browser.
 A program that can be run in the CLI is [here](https://github.com/ike-keichan/KeiLisp).
@@ -57,31 +57,33 @@ KeiLisp-onWeb@0.1.0 ~/KeiLisp-onWeb
 └── vue-template-compiler@2.6.12
 ```
 
+## Reference
++ [Atom](./README_Atom.md)
++ [Cons](./README_Cons.md)
++ [Function](./README_Function.md)
+
 ## Quick start
+The interpreter can be started right [here](https://ike-keichan.github.io/KeiLisp-onWeb/).
+
+## Quick start（local）
+If you want to run it in a local environment, please follow these steps。
+
 ### Install
 ```
 $ git clone https://github.com/ike-keichan/KeiLisp-onWeb.git
 ```
 
-## Setup
+### Setup & Launch
 ```
 $ cd ./KeiLisp-onWeb
 $ npm install
-```
-
-### Launch
-```
-$ cd ./KeiLisp-onWeb
 $ npm run serve
 ```
 
-### Syntax
-+ [Atom](./README_Atom.md)
-+ [Cons](./README_Cons.md)
-+ [Function](./README_Function.md)
 
-### Example
-#### example1
+
+## Example
+### example1
 ```
 >> 1
 1
@@ -93,7 +95,7 @@ a
 nil
 ```
 
-#### example2
+### example2
 ```
 >> ()
 nil
@@ -122,7 +124,7 @@ nil
 
 ```
 
-#### example3
+### example3
 ```
 >> '(1 . 2)
 (1 . 2)
@@ -142,7 +144,7 @@ nil
 (nil 1.2)
 ```
 
-#### example4
+### example4
 ```
 >> (car '(1 (2 (3 (4 5) 6) 7 (8 9))))
 1
@@ -173,6 +175,7 @@ tasu
 ```
 
 ---
+## Others
 
 ### Compiles and minifies for production
 ```

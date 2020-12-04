@@ -29,22 +29,14 @@ export function selectPrintFunction()
  
     return aFunction;
 }
-
+/**
+ * 出力をクリアする関数
+ */
 export function clearPrintFunction()
 {
-    let aFunction = false;
+    let anElement = document.getElementById("Clear");
+    anElement.focus();
+    anElement.blur();
  
-    if (typeof document === "undefined"){
-        if (typeof print === "function") { aFunction = ( aFlag ) => { print(aFlag) }; }
-        else { aFunction = ( aFlag ) => { console.log(aFlag); }; }
-    } else {
-        aFunction = ( aFlag ) => {
-            let anElement = document.getElementById("ClearFlag");
-            anElement.value = aFlag; 
-            anElement.focus();
-            anElement.blur();
-        };
-    }
- 
-    return aFunction;
+    return;
 }

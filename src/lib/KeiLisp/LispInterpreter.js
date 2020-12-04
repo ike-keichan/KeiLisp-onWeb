@@ -60,8 +60,6 @@ export class LispInterpreter extends Object
             anObject = Cons.nil; 
         }
 
-        // anObject = Evaluator.eval(aCons, this.root, this.streamManager); //デバック用
-
         return anObject;
     }
 

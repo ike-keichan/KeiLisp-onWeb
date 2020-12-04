@@ -1091,9 +1091,9 @@ export class Applier extends Object
     spyPrint(aStream, line)
     {
         let aPrintStream = process.stdout;
-        if(aStream != null){ /* Todo: 未実装 */ selectPrintFunction()(aStream); }
+        if(aStream != null){ selectPrintFunction()(aStream); }
         selectPrintFunction()(this.indent() + line);
-        if(aStream != null){ /* Todo: 未実装 */ selectPrintFunction()(aPrintStream); }
+        if(aStream != null){ selectPrintFunction()(aPrintStream); }
         return null;
     }
 

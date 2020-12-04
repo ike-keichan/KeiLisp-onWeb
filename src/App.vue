@@ -5,12 +5,11 @@
             2020.12.04 created by Keisuke Ikeda.
         </h4>
         <form name="clform" autocomplete="off">
-            <pre>{{ output }}{{ prompt }}<input id="clinput" name="clinput" type="text" v-model="input">
-            </pre>
-            <button style="display:none" v-on:click.prevent="exec"></button>
+            <pre>{{ output }}{{ prompt }}<input id="clinput" name="clinput" type="text" v-model="input"></pre>
+            <button v-on:click.prevent="exec"></button>
         </form>
-        <textarea @focus="messagePrint" id="Message" cols="1" rows="1" style="display:block;" readonly></textarea>
-        <p id="ClearFlag" style="display:none;"></p>
+        <textarea @focus="messagePrint" id="Message" cols="1" rows="1" readonly></textarea>
+        <textarea @focus="clearPrint" id="Clear" cols="1" rows="1" readonly></textarea>
     </div>
 </template>
 
@@ -42,12 +41,14 @@ export default {
             document.clform.clinput.focus()
         }
         document.onkeydown = (key) => {
-            if (key.keyCode == '38') {
+            if (key.keyCode == '38')
+            {
                 if(0 < this.index){ this.index --; }
                 else if(this.index <= 0){ this.index = 0; }
                 if(this.history[this.index] != undefined){ this.input = this.history[this.index]; }
             }
-            else if (key.keyCode == '40') {
+            else if (key.keyCode == '40')
+            {
                 if(this.index < this.history.length){ this.index ++; }
                 else if(this.history.length  < this.index){ this.index = this.history.length; }
                 if(this.history.length == this.index){ this.input = ''; }
@@ -73,11 +74,7 @@ export default {
                 this.aCons = this.interpreter.parse(this.buffer);
                 try
                 {
-                    for(let each of this.aCons.loop())
-                    { 
-                        this.print(this.interpreter.eval(each).toString() + '\n');
-                        this.clearPrint();
-                    }
+                    for(let each of this.aCons.loop()){ this.print(this.interpreter.eval(each).toString() + '\n'); }
                 }
                 catch (e) 
                 {
@@ -86,18 +83,15 @@ export default {
                 }
 
                 this.leftParentheses = 0;
-                this.buffer = new String(); 
+                this.buffer = ''; 
             }
+
             if(this.input != ''){ this.history.push(this.input); }
             this.input = '';
-            this.index = this.history.length
+            this.index = this.history.length;
         },
         clearPrint() {
-            if(document.getElementById('ClearFlag').value == true)
-            {
-                this.output = '';
-                document.getElementById('ClearFlag').value = '';
-            }
+            this.output = '';
         },
         messagePrint() {
             this.print(document.getElementById('Message').value)
@@ -127,23 +121,25 @@ html {
     height: 100vh;
 }
 
+button {
+    display: none;
+}
+
 input, textarea {
     border:none;
-    outline:none;
-    font-family : inherit;
-    font-weight: inherit;
     font-size : 100%;
+    font-weight: inherit;
+    font-family : inherit;
+    outline:none;
     resize: none;
 }
 
-
+textarea {
+    display: block;
+}
 
 @media (prefers-color-scheme: dark) {
-    html {
-        background-color: #000;
-        color: #0066cc;
-    }
-    input, textarea {
+    html, input, textarea {
         background-color: #000;
         color: #0066cc;
     }
