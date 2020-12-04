@@ -45,7 +45,7 @@ If the OS, Node.js and Vue.js versions match, the following software will be ins
 ### Node module
 ```
 $ npm list --depth=0
-KeiLisp-onWeb@0.1.0 /Users/g1744069/Program/KeiLisp-onWeb
+KeiLisp-onWeb@0.1.0 ~/KeiLisp-onWeb
 ├── @vue/cli-plugin-babel@4.5.9
 ├── @vue/cli-service@4.5.9
 ├── core-js@3.8.0
