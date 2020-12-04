@@ -1,9 +1,9 @@
 # KeiLisp-onWeb
-（this document fix： 2020/12/4 create: 2020/11/5）
+（this document fix： 2020/12/4 create: 2020/12/4）
 
 ## Status
 Creation Period：2020.7~
-Version： 1.0 (2020/12/1)
+Version： 1.0 (2020/12/4)
 
 ## About program
 Hello! I am developing it as a graduation research project of "Special Research on Computer Science and Engineering IIA/IIB" in Department of Computer Science and Engineering, Kyoto Sangyo University. 
@@ -34,21 +34,26 @@ $ node --version
 v12.18.3
 ```
 
-If the OS and Node.js versions match, the following software will be installed automatically when you build your environment.
+### Vue.js
+```
+$ vue --version
+@vue/cli 4.5.9
+```
+
+If the OS, Node.js and Vue.js versions match, the following software will be installed automatically when you setup your environment.
+
 ### Node module
 ```
 $ npm list --depth=0
-KeiLisp@1.0.0 ~/KeiLisp
-├── @babel/core@7.12.9
-├── @babel/plugin-proposal-class-properties@7.12.1
-├── @babel/preset-env@7.12.7
-├── babel-loader@8.2.2
+KeiLisp-onWeb@0.1.0 /Users/g1744069/Program/KeiLisp-onWeb
+├── @vue/cli-plugin-babel@4.5.9
+├── @vue/cli-service@4.5.9
+├── core-js@3.8.0
 ├── expose-gc@1.0.0
 ├── ramda@0.27.1
-├── readline@1.3.0
-├── webpack@4.44.2
-└── webpack-cli@3.3.12
-
+├── v8@0.1.0
+├── vue@2.6.12
+└── vue-template-compiler@2.6.12
 ```
 
 ## Quick start
