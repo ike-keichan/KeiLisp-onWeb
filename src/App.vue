@@ -4,7 +4,7 @@
             Hello! This is an interpreter that mimics Lisp, "KeiLisp".<br>
             2020.12.04 created by Keisuke Ikeda.
         </h4>
-        <textarea name="" id="Message" cols="30" rows="10" style="display:none;"></textarea>
+        <textarea @focus="messagePrint" id="Message" cols="30" rows="10" style="display:none;"></textarea>
         <form name="clform" style="text-align: start;" autocomplete="off">
 <pre>{{ output }}{{ prompt }}<input id="clinput" name="clinput" style="border:none; outline:none;" type="text" v-model="input">
 </pre>
@@ -74,11 +74,10 @@ export default {
                 this.aCons = this.interpreter.parse(this.buffer);
                 try
                 {
-                    for(let each of this.aCons.loop()){ 
-                        const result = this.interpreter.eval(each).toString() + '\n';
-                        if (this.hasMessage()){ this.messagePrint(); }
-                        this.print(result);
-                        this.hasFlag();
+                    for(let each of this.aCons.loop())
+                    { 
+                        this.print(this.interpreter.eval(each).toString() + '\n');
+                        this.clearPrint();
                     }
                 }
                 catch (e) 
@@ -94,15 +93,12 @@ export default {
             this.input = '';
             this.index = this.history.length
         },
-        hasFlag(){
+        clearPrint(){
             if(document.getElementById('Flag').value == true)
             {
                 this.output = '';
                 document.getElementById('Flag').value = false;
             }
-        },
-        hasMessage () {
-            return document.getElementById('Message').value.length > 0
         },
         messagePrint() {
             this.print(document.getElementById('Message').value)

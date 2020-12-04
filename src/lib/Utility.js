@@ -22,6 +22,8 @@ export function selectPrintFunction()
         aFunction = (anObject, end = '\n') => {
             let anElement = document.getElementById("Message");
             anElement.value += anObject + end; 
+            anElement.focus();
+            anElement.blur();
         };
     }
  
