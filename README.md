@@ -78,9 +78,8 @@ $ git clone https://github.com/ike-keichan/KeiLisp-onWeb.git
 $ cd ./KeiLisp-onWeb
 $ npm install
 $ npm run serve
+$ open http://localhost:8080/
 ```
-
-
 
 ## Example
 ### example1
@@ -109,19 +108,6 @@ nil
 4.6
 >> (+ 1.2 -3.4)
 -2.2
->> (+ 1 nil)
-Can not apply "add" to "nil"
-nil
->> (+ nil 1)
-Can not apply "add" to "nil"
-nil
->> (+ 1.2 nil)
-Can not apply "add" to "nil"
-nil
->> (+ nil 1.2)
-Can not apply "add" to "nil"
-nil
-
 ```
 
 ### example3
