@@ -16,6 +16,7 @@ In this interpreter the following functions are defined.
 + [car](#car)
 + [cdr](#cdr)
 + [characterp](#characterp)
++ [clear](#clear)
 + [cond](#cond)
 + [cons](#cons)
 + [consp](#consp)
@@ -62,6 +63,7 @@ In this interpreter the following functions are defined.
 + [print](#print)
 + [push](#push)
 + [quote](#quote)
++ [reload](#reload)
 + [reverse](#reverse)
 + [rplaca](#rplaca)
 + [rplacd](#rplacd)
@@ -242,6 +244,15 @@ nil
 t
 >> (characterp "abc")
 nil
+```
+
+### clear
+**(clear)**
+Function to clear the browser's output.<br>
+This function is KeiLisp-onWeb only. This is no support with KeiLisp.
+
+```
+>> (clear)
 ```
 
 ### cond
@@ -961,6 +972,17 @@ Function to answer the reference.
 a
 >> (quote 1)
 1
+```
+
+### reload
+**(reload)**
+Function to reload the browser's page.<br>
+This function is KeiLisp-onWeb only. This is no support with KeiLisp.
+
+```
+>> (reload)
+Reload this page...
+t
 ```
 
 ### reverse

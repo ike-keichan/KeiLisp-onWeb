@@ -653,7 +653,7 @@ export class Evaluator extends Object
     {
         selectPrintFunction()('Reload this page...')
         location.reload()
-        return Cons.nil;
+        return InterpretedSymbol.of('t');
     }
 
     /**
