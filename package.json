@@ -21,6 +21,9 @@
         "@vue/cli-service": "^4.5.0",
         "vue-template-compiler": "^2.6.11"
     },
+    "vue": {
+        "publicPath": "/project-name/"
+    },
     "babel": {
         "presets": [
             "@vue/cli-plugin-babel/preset"

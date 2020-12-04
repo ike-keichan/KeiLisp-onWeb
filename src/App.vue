@@ -16,8 +16,8 @@
 
 <script>
 // import HelloWorld from './components/HelloWorld.vue'
-import { LispInterpreter } from './lib/JSLisp/LispInterpreter.js'
-import { Cons } from './lib/JSLisp/Cons.js'
+import { LispInterpreter } from './lib/KeiLisp/LispInterpreter.js'
+import { Cons } from './lib/KeiLisp/Cons.js'
 
 export default {
     name: 'App',
