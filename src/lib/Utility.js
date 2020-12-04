@@ -39,8 +39,10 @@ export function clearPrintFunction()
         else { aFunction = ( aFlag ) => { console.log(aFlag); }; }
     } else {
         aFunction = ( aFlag ) => {
-            let anElement = document.getElementById("Flag");
+            let anElement = document.getElementById("ClearFlag");
             anElement.value = aFlag; 
+            anElement.focus();
+            anElement.blur();
         };
     }
  

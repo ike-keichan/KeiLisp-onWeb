@@ -1,21 +1,20 @@
 <template>
     <div id="app">
-        <h4 style="text-align: start">
+        <h4>
             Hello! This is an interpreter that mimics Lisp, "KeiLisp".<br>
             2020.12.04 created by Keisuke Ikeda.
         </h4>
-        <textarea @focus="messagePrint" id="Message" cols="30" rows="10" style="display:none;"></textarea>
-        <form name="clform" style="text-align: start;" autocomplete="off">
-<pre>{{ output }}{{ prompt }}<input id="clinput" name="clinput" style="border:none; outline:none;" type="text" v-model="input">
-</pre>
-            <button style="display: none" v-on:click.prevent="exec"></button>
+        <form name="clform" autocomplete="off">
+            <pre>{{ output }}{{ prompt }}<input id="clinput" name="clinput" type="text" v-model="input">
+            </pre>
+            <button style="display:none" v-on:click.prevent="exec"></button>
         </form>
-        <p id="Flag" style="display:none;"></p>
+        <textarea @focus="messagePrint" id="Message" cols="1" rows="1" style="display:block;" readonly></textarea>
+        <p id="ClearFlag" style="display:none;"></p>
     </div>
 </template>
 
 <script>
-// import HelloWorld from './components/HelloWorld.vue'
 import { LispInterpreter } from './lib/KeiLisp/LispInterpreter.js'
 import { Cons } from './lib/KeiLisp/Cons.js'
 
@@ -93,11 +92,11 @@ export default {
             this.input = '';
             this.index = this.history.length
         },
-        clearPrint(){
-            if(document.getElementById('Flag').value == true)
+        clearPrint() {
+            if(document.getElementById('ClearFlag').value == true)
             {
                 this.output = '';
-                document.getElementById('Flag').value = false;
+                document.getElementById('ClearFlag').value = '';
             }
         },
         messagePrint() {
@@ -110,7 +109,6 @@ export default {
     }
 }
 </script>
-
 <style>
 #app {
     font-size: 1.17em;
@@ -118,7 +116,7 @@ export default {
     font-family: Ricty Diminished Discord;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    text-align: center;
+    text-align: start;
 }
 
 #clinput {
@@ -129,18 +127,23 @@ html {
     height: 100vh;
 }
 
-input {
+input, textarea {
+    border:none;
+    outline:none;
     font-family : inherit;
     font-weight: inherit;
     font-size : 100%;
+    resize: none;
 }
+
+
 
 @media (prefers-color-scheme: dark) {
     html {
         background-color: #000;
         color: #0066cc;
     }
-    input {
+    input, textarea {
         background-color: #000;
         color: #0066cc;
     }

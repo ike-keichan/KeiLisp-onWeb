@@ -173,11 +173,12 @@ export class Evaluator extends Object
     /**
      * ブラウザの出力を削除するメソッド、KeiLisp-onWeb専用。
      * @param {*} args 引数
+     * @return {InterpretedSymbol} インタプリテッドシンボルt
      */
     clear(args = null)
     {
         clearPrintFunction()(true);
-        return Cons.nil;
+        return InterpretedSymbol.of('t');
     }
 
     /**
