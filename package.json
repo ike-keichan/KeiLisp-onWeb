@@ -22,7 +22,7 @@
         "vue-template-compiler": "^2.6.11"
     },
     "vue": {
-        "publicPath": "/project-name/",
+        "publicPath": "/KeiLisp-onWeb/",
         "outputDir": "docs"
     },
     "babel": {
