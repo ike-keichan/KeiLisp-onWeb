@@ -10,8 +10,8 @@ Hello! I am developing it as a graduation research project of "Special Research 
 
 This is an interpreter that mimics Lisp.
 I hope this will be the beginning of your encounter with Lisp and functional programming.
-This program is intended to be run in the CLI.
-A program that can be run in a web browser is [here](https://github.com/ike-keichan/KeiLisp).
+This program is intended to be run in a web browser.
+A program that can be run in the CLI is [here](https://github.com/ike-keichan/KeiLisp).
 
 As of December 4, 2020, version 1.0 is complete.
 ## Execution environment
