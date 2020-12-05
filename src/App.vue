@@ -4,10 +4,7 @@
             Hello! This is an interpreter that mimics Lisp, "KeiLisp".<br>
             2020.12.04 created by Keisuke Ikeda.
         </h4>
-        <form name="clform" autocomplete="off">
-            <pre>{{ output }}{{ prompt }}<input id="clinput" name="clinput" type="text" v-model="input"></pre>
-            <button v-on:click.prevent="exec"></button>
-        </form>
+        <pre>{{ output }}{{ prompt }}<input id="clinput" name="clinput" type="text" v-model="input"></pre>
         <textarea @focus="messagePrint" id="Message" cols="1" rows="1" readonly></textarea>
         <textarea @focus="clearPrint" id="Clear" cols="1" rows="1" readonly></textarea>
     </div>
@@ -36,25 +33,7 @@ export default {
         this.interpreter = new LispInterpreter()
     },
     mounted: function() {
-        document.clform.clinput.focus()
-        document.getElementsByTagName('html')[0].onclick = () => {
-            document.clform.clinput.focus()
-        }
-        document.onkeydown = (key) => {
-            if (key.keyCode == '38')
-            {
-                if(0 < this.index){ this.index --; }
-                else if(this.index <= 0){ this.index = 0; }
-                if(this.history[this.index] != undefined){ this.input = this.history[this.index]; }
-            }
-            else if (key.keyCode == '40')
-            {
-                if(this.index < this.history.length){ this.index ++; }
-                else if(this.history.length  < this.index){ this.index = this.history.length; }
-                if(this.history.length == this.index){ this.input = ''; }
-                else if(this.history[this.index] != undefined){ this.input = this.history[this.index]; }
-            }
-        }
+        this.addEvent();
     },
     methods: {
         exec () {
@@ -89,6 +68,34 @@ export default {
             if(this.input != ''){ this.history.push(this.input); }
             this.input = '';
             this.index = this.history.length;
+        },
+        addEvent(){
+            document.getElementById("clinput").focus()
+            document.getElementsByTagName('html')[0].onclick = () => {
+                document.getElementById("clinput").focus()
+            }
+            document.getElementById("clinput").addEventListener('keypress', (e) => {
+                const key = e.keyCode || e.charCode || 0;
+                if (key == 13) {
+                    this.exec();
+                    e.preventDefault();
+                }
+            }, false)
+            document.onkeydown = (key) => {
+                if (key.keyCode == '38')
+                {
+                    if(0 < this.index){ this.index --; }
+                    else if(this.index <= 0){ this.index = 0; }
+                    if(this.history[this.index] != undefined){ this.input = this.history[this.index]; }
+                }
+                else if (key.keyCode == '40')
+                {
+                    if(this.index < this.history.length){ this.index ++; }
+                    else if(this.history.length  < this.index){ this.index = this.history.length; }
+                    if(this.history.length == this.index){ this.input = ''; }
+                    else if(this.history[this.index] != undefined){ this.input = this.history[this.index]; }
+                }
+            }
         },
         clearPrint() {
             this.output = '';
