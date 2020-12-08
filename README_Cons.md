@@ -1,7 +1,7 @@
 # KeiLisp
 （this document fix： 2020/12/04 create: 2020/12/04）
 
-## Atom
+## 
 In this interpreter, the following are called Cons.
 
 + [Pairs](#pairs)
