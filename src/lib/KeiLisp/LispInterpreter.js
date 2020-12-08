@@ -60,6 +60,8 @@ export class LispInterpreter extends Object
             anObject = Cons.nil; 
         }
 
+        // anObject = Evaluator.eval(aCons, this.root, this.streamManager); //デバック用
+
         return anObject;
     }
 
@@ -107,7 +109,7 @@ export class LispInterpreter extends Object
         let aList = new Array();
         let aTable = new Table();
         aTable.setRoot(true);
-
+        
         aList.push('abs');
         aList.push('add');
         aList.push('and');

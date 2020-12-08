@@ -23,6 +23,12 @@ import { Table } from './Table.js';
 // モジュール「selectPrintFunction」を読み込む。
 import { selectPrintFunction, clearPrintFunction } from '../Utility.js'
 
+global.console;
+global.document;
+global.module;
+global.print;
+global.window;
+
 /**
  * @class
  * @classdesc Lispの万能関数のEvaluateを模倣したクラス
@@ -50,6 +56,7 @@ export class Evaluator extends Object
         this.environment = aTable;
         this.streamManager = aStreamManager;
         this.depth = aNumber;
+        this.canvas = document.querySelector("#glCanvas");
 
         return this;
     }
@@ -420,13 +427,6 @@ export class Evaluator extends Object
      */
     gc(args = null)
     {
-        // const gc = require('expose-gc/function');
-        // gc();
-        // require('expose-gc');
-        // global.gc();
-        // require("v8").setFlagsFromString('--expose_gc');
-        // global.gc = require("vm").runInNewContext('gc');
-        // global.gc();
         selectPrintFunction()('Can\'t to garbage-collect.')
         return InterpretedSymbol.of('t');
     }

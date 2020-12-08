@@ -4,7 +4,7 @@
             Hello! This is an interpreter that mimics Lisp, "KeiLisp".<br>
             2020.12.04 created by Keisuke Ikeda.
         </h4>
-        <pre>{{ output }}{{ prompt }}<input id="clinput" name="clinput" type="text" v-model="input"></pre>
+        <pre>{{ output }}{{ prompt }}<input id="clinput" name="clinput" type="text" v-model="input" autocomplete="off"></pre>
         <textarea @focus="messagePrint" id="Message" cols="1" rows="1" readonly></textarea>
         <textarea @focus="clearPrint" id="Clear" cols="1" rows="1" readonly></textarea>
     </div>
@@ -19,7 +19,7 @@ export default {
     data() {
         return {
             interpreter: {},
-            prompt: '>> ',
+            prompt: '>>   ',
             input: '',
             output: '',
             buffer: '',
@@ -37,16 +37,19 @@ export default {
     },
     methods: {
         exec () {
-            this.buffer += '';
+            this.buffer += ' ';
 
             for(let aCharacter of this.input)
             {
-                if(aCharacter == '(') { this.leftParentheses++ }
-                if(aCharacter == ')') { this.leftParentheses-- }
+                if(aCharacter == '(') { this.leftParentheses++; }
+                if(aCharacter == ')') { this.leftParentheses--; }
                 this.buffer += aCharacter;
             }
 
             this.print(this.prompt + this.input + '\n');
+
+            if(this.leftParentheses > 0){ this.prompt = '. . .  ' }
+            else{ this.prompt = '>>   ' }
 
             if(this.leftParentheses <= 0)
             {
@@ -66,7 +69,7 @@ export default {
             }
 
             if(this.input != ''){ this.history.push(this.input); }
-            this.input = '';
+            this.input = ' ';
             this.index = this.history.length;
         },
         addEvent(){
@@ -122,6 +125,11 @@ export default {
 
 #clinput {
     width: 95%;
+}
+
+.contents {
+    height: 100%;
+    width: 100%;
 }
 
 html {
