@@ -125,6 +125,7 @@ export class LispInterpreter extends Object
         aList.push('gfill');
         aList.push('gfill-color');
         aList.push('gfill-rect');
+        aList.push('gfill-text');
         aList.push('gfill-tri');
 
         aList.push('gfinish-path');
@@ -141,12 +142,19 @@ export class LispInterpreter extends Object
 
         aList.push('gsave-jpeg');
         aList.push('gsave-png');
+
+        aList.push('gshadow-blur')
+        aList.push('gshadow-color')
+        aList.push('gshadow-offsetx')
+        aList.push('gshadow-offsety');
+
         aList.push('gsleep');
         aList.push('gstart-path');
 
         aList.push('gstroke');
         aList.push('gstroke-color');
         aList.push('gstroke-rect');
+        aList.push('gstroke-text');
         aList.push('gstroke-tri');
 
         aList.push('grect');

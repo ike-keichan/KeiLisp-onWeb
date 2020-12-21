@@ -546,6 +546,43 @@ export class Graphist extends Object
     }
 
     /**
+     * 塗り潰されたテキストを描画するメソッド
+     * @param {Cons} args 引数
+     * @return {*} インタプリテッドシンボルt、もしくはnil
+     */
+    gFillText(args)
+    {
+        if(!this.checkSupport()){ return Cons.nil; }
+        if(this.canvasState == true)
+        {
+            try
+            {
+                if(args.length() == 3 && Cons.isString(args.car) && Cons.isNumber(args.cdr.car) && Cons.isNumber(args.cdr.cdr.car))
+                {
+                    this.ctx.fillText(args.car, args.cdr.car, args.cdr.cdr.car);
+                    this.ctx.save();
+                    return InterpretedSymbol.of('t');
+                }
+                else
+                {
+                    selectPrintFunction()('Can not draw fill text.');
+                    return Cons.nil;
+                }
+            }
+            catch(e)
+            {
+                selectPrintFunction()('Can not draw fill text.');
+                return Cons.nil;
+            }
+        }
+        else
+        {
+            selectPrintFunction()('The canvas is closed and cannot be executed.');
+            return Cons.nil;
+        }
+    }
+
+    /**
      * 塗り潰された三角形を描画するメソッド
      * @param {Cons} args 引数
      * @return {*} インタプリテッドシンボルt、もしくはnil
@@ -555,17 +592,25 @@ export class Graphist extends Object
         if(!this.checkSupport()){ return Cons.nil; }
         if(this.canvasState == true)
         {
-            if(args.length() == 6 && Cons.isNumber(args.car) && Cons.isNumber(args.cdr.car) && Cons.isNumber(args.cdr.cdr.car) && Cons.isNumber(args.cdr.cdr.cdr.car) && Cons.isNumber(args.cdr.cdr.cdr.cdr.car) && Cons.isNumber(args.cdr.cdr.cdr.cdr.cdr.car))
+            try
             {
-                this.ctx.beginPath();
-                this.ctx.lineTo(args.car, args.cdr.car);
-                this.ctx.lineTo(args.cdr.cdr.car, args.cdr.cdr.cdr.car);
-                this.ctx.lineTo(args.cdr.cdr.cdr.cdr.car, args.cdr.cdr.cdr.cdr.cdr.car);
-                this.ctx.fill();
-                this.ctx.save();
-                return InterpretedSymbol.of('t');
+                if(args.length() == 6 && Cons.isNumber(args.car) && Cons.isNumber(args.cdr.car) && Cons.isNumber(args.cdr.cdr.car) && Cons.isNumber(args.cdr.cdr.cdr.car) && Cons.isNumber(args.cdr.cdr.cdr.cdr.car) && Cons.isNumber(args.cdr.cdr.cdr.cdr.cdr.car))
+                {
+                    this.ctx.beginPath();
+                    this.ctx.lineTo(args.car, args.cdr.car);
+                    this.ctx.lineTo(args.cdr.cdr.car, args.cdr.cdr.cdr.car);
+                    this.ctx.lineTo(args.cdr.cdr.cdr.cdr.car, args.cdr.cdr.cdr.cdr.cdr.car);
+                    this.ctx.fill();
+                    this.ctx.save();
+                    return InterpretedSymbol.of('t');
+                }
+                else
+                {
+                    selectPrintFunction()('Can not draw fill triangle.');
+                    return Cons.nil;
+                }
             }
-            else
+            catch(e)
             {
                 selectPrintFunction()('Can not draw fill triangle.');
                 return Cons.nil;
@@ -605,7 +650,6 @@ export class Graphist extends Object
             return Cons.nil;
         }
     }
-
 
     /**
      * 現在のパスの座標から指定した座標まで線を描画するメソッド
@@ -917,15 +961,23 @@ export class Graphist extends Object
         if(!this.checkSupport()){ return Cons.nil; }
         if(this.canvasState == true)
         {
-            let imageUrl = this.canvas.toDataURL("image/jpeg");
-            let link = document.createElement('a');
-            link.href = imageUrl;
-            link.download = "canvas";
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link)
+            try
+            {
+                let imageUrl = this.canvas.toDataURL("image/jpeg");
+                let link = document.createElement('a');
+                link.href = imageUrl;
+                link.download = "canvas";
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link)
 
-            return InterpretedSymbol.of('t')
+                return InterpretedSymbol.of('t')
+            }
+            catch(e)
+            {
+                selectPrintFunction()('Can not save jpeg.');
+                return Cons.nil;
+            }
         }
         else
         {
@@ -944,19 +996,94 @@ export class Graphist extends Object
         if(!this.checkSupport()){ return Cons.nil; }
         if(this.canvasState == true)
         {
-            let imageUrl = this.canvas.toDataURL("image/png");
-            let link = document.createElement('a');
-            link.href = imageUrl;
-            link.download = "canvas";
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link)
+            try
+            {
+                let imageUrl = this.canvas.toDataURL("image/png");
+                let link = document.createElement('a');
+                link.href = imageUrl;
+                link.download = "canvas";
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link)
 
-            return InterpretedSymbol.of('t')
+                return InterpretedSymbol.of('t')
+            }
+            catch(e)
+            {
+                selectPrintFunction()('Can not save png.');
+                return Cons.nil;
+            }
         }
         else
         {
             selectPrintFunction()('The canvas has already been opened.');
+            return Cons.nil;
+        }
+    }
+
+     /**
+     * 描画時の影のぼかしを指定するメソッド
+     * @param {Cons} args 引数
+     * @return {*} インタプリテッドシンボルt、もしくはnil
+     */
+    gShadowBlur(args)
+    {
+        if(!this.checkSupport()){ return Cons.nil; }
+        if(this.canvasState == true)
+        {
+            if(args.length() == 1 && Cons.isNumber(args.car))
+            {
+                this.ctx.Blur = args.car;
+                this.ctx.save();
+                return InterpretedSymbol.of('t');
+            }
+            else
+            {
+                selectPrintFunction()('Can not set shadow blur.');
+                return Cons.nil;
+            }
+        }
+        else
+        {
+            selectPrintFunction()('The canvas is closed and cannot be executed.');
+            return Cons.nil;
+        }
+    }
+
+    /**
+     * 描画時の影の色を指定するメソッド
+     * @param {Cons} args 引数
+     * @return {*} インタプリテッドシンボルt、もしくはnil
+     */
+    gShadowColor(args)
+    {
+        if(!this.checkSupport()){ return Cons.nil; }
+        if(this.canvasState == true)
+        {
+            try
+            {
+                if(args.length() == 1)
+                {
+                    let aColor = this.selectColor(args);
+                    this.ctx.shadowColor = aColor;
+                    this.ctx.save();
+                    return InterpretedSymbol.of('t');
+                }
+                else
+                {
+                    selectPrintFunction()('Can not set shadow color.');
+                    return Cons.nil;
+                }
+            }
+            catch(e)
+            {
+                selectPrintFunction()('Can not set shadow color.');
+                return Cons.nil;
+            }
+        }
+        else
+        {
+            selectPrintFunction()('The canvas is closed and cannot be executed.');
             return Cons.nil;
         }
     }
@@ -966,24 +1093,16 @@ export class Graphist extends Object
      * @param {Cons} args 引数
      * @return {*} インタプリテッドシンボルt、もしくはnil
      */
-    gShadowOffsetX()
+    gShadowOffsetX(args)
     {
         if(!this.checkSupport()){ return Cons.nil; }
         if(this.canvasState == true)
         {
-            if(args.length() == 1)
+            if(args.length() == 1 && Cons.isNumber(args.car))
             {
-                if(Cons.isNumber(args.car))
-                {
-                    this.ctx.shadowOffsetX = args.car;
-                    this.ctx.save();
-                    return InterpretedSymbol.of('t');
-                }
-                else
-                {
-                    selectPrintFunction()('Can not set shadow offsetX.');
-                    return Cons.nil;
-                }
+                this.ctx.shadowOffsetX = args.car;
+                this.ctx.save();
+                return InterpretedSymbol.of('t');
             }
             else
             {
@@ -1003,24 +1122,16 @@ export class Graphist extends Object
      * @param {Cons} args 引数
      * @return {*} インタプリテッドシンボルt、もしくはnil
      */
-    gShadowOffsetY()
+    gShadowOffsetY(args)
     {
         if(!this.checkSupport()){ return Cons.nil; }
         if(this.canvasState == true)
         {
-            if(args.length() == 1)
+            if(args.length() == 1 && Cons.isNumber(args.car))
             {
-                if(Cons.isNumber(args.car))
-                {
-                    this.ctx.shadowOffsetY = args.car;
-                    this.ctx.save();
-                    return InterpretedSymbol.of('t');
-                }
-                else
-                {
-                    selectPrintFunction()('Can not set shadow offsetY.');
-                    return Cons.nil;
-                }
+                this.ctx.shadowOffsetY = args.car;
+                this.ctx.save();
+                return InterpretedSymbol.of('t');
             }
             else
             {
@@ -1050,18 +1161,10 @@ export class Graphist extends Object
                 while (new Date().getTime() < time); 
             }
 
-            if(args.length() == 1)
+            if(args.length() == 1 && Cons.isNumber(args.car))
             {
-                if(Cons.isNumber(args.car))
-                {
-                    sleep(args.car);
-                    return InterpretedSymbol.of('t');
-                }
-                else 
-                {
-                    selectPrintFunction()('Can not sleep');
-                    return Cons.nil;
-                }
+                sleep(args.car);
+                return InterpretedSymbol.of('t');
             }
             else 
             {
@@ -1184,19 +1287,11 @@ export class Graphist extends Object
         {
             try
             {
-                if(args.length() == 4)
+                if(args.length() == 4 && Cons.isNumber(args.car) && Cons.isNumber(args.cdr.car) && Cons.isNumber(args.cdr.cdr.car) && Cons.isNumber(args.cdr.cdr.cdr.car))
                 {
-                    if(Cons.isNumber(args.car) && Cons.isNumber(args.cdr.car) && Cons.isNumber(args.cdr.cdr.car) && Cons.isNumber(args.cdr.cdr.cdr.car))
-                    {
-                        this.ctx.strokeRect(args.car, args.cdr.car, args.cdr.cdr.car, args.cdr.cdr.cdr.car);
-                        this.ctx.save();
-                        return InterpretedSymbol.of('t');
-                    }
-                    else
-                    {
-                        selectPrintFunction()('Can not draw stroke rectangle.');
-                        return Cons.nil;
-                    }
+                    this.ctx.strokeRect(args.car, args.cdr.car, args.cdr.cdr.car, args.cdr.cdr.cdr.car);
+                    this.ctx.save();
+                    return InterpretedSymbol.of('t');
                 }
                 else
                 {
@@ -1218,6 +1313,43 @@ export class Graphist extends Object
     }
 
     /**
+     * テキストの輪郭を描画するメソッド
+     * @param {Cons} args 引数
+     * @return {*} インタプリテッドシンボルt、もしくはnil
+     */
+    gStrokeText(args)
+    {
+        if(!this.checkSupport()){ return Cons.nil; }
+        if(this.canvasState == true)
+        {
+            try
+            {
+                if(args.length() == 3 && Cons.isString(args.car) && Cons.isNumber(args.cdr.car) && Cons.isNumber(args.cdr.cdr.car))
+                {
+                    this.ctx.strokeText(args.car, args.cdr.car, args.cdr.cdr.car);
+                    this.ctx.save();
+                    return InterpretedSymbol.of('t');
+                }
+                else
+                {
+                    selectPrintFunction()('Can not draw fill text.');
+                    return Cons.nil;
+                }
+            }
+            catch(e)
+            {
+                selectPrintFunction()('Can not draw fill text.');
+                return Cons.nil;
+            }
+        }
+        else
+        {
+            selectPrintFunction()('The canvas is closed and cannot be executed.');
+            return Cons.nil;
+        }
+    }
+
+    /**
      * 三角形の輪郭を描画するメソッド
      * @param {Cons} args 引数
      * @return {*} インタプリテッドシンボルt、もしくはnil
@@ -1227,15 +1359,14 @@ export class Graphist extends Object
         if(!this.checkSupport()){ return Cons.nil; }
         if(this.canvasState == true)
         {
-            if(Cons.isNumber(args.car))
+            try
             {
-                if(args.length() == 6)
+                if(args.length() == 6 && Cons.isNumber(args.car) && Cons.isNumber(args.cdr.car) && Cons.isNumber(args.cdr.cdr.car) && Cons.isNumber(args.cdr.cdr.cdr.car) && Cons.isNumber(args.cdr.cdr.cdr.cdr.car) && Cons.isNumber(args.cdr.cdr.cdr.cdr.cdr.car))
                 {
                     this.ctx.beginPath();
                     this.ctx.lineTo(args.car, args.cdr.car);
                     this.ctx.lineTo(args.cdr.cdr.car, args.cdr.cdr.cdr.car);
                     this.ctx.lineTo(args.cdr.cdr.cdr.cdr.car, args.cdr.cdr.cdr.cdr.cdr.car);
-                    this.ctx.closePath();
                     this.ctx.stroke();
                     this.ctx.save();
                     return InterpretedSymbol.of('t');
@@ -1246,9 +1377,157 @@ export class Graphist extends Object
                     return Cons.nil;
                 }
             }
-            else
+            catch(e)
             {
                 selectPrintFunction()('Can not draw stroke triangle.');
+                return Cons.nil;
+            }
+        }
+        else
+        {
+            selectPrintFunction()('The canvas is closed and cannot be executed.');
+            return Cons.nil;
+        }
+    }
+
+    /**
+     * 描画するテキストの配置を指定するメソッド
+     * @param {Cons} args 引数
+     * @return {*} インタプリテッドシンボルt、もしくはnil
+     */
+    gTextAlign(args)
+    {
+        if(!this.checkSupport()){ return Cons.nil; }
+        if(this.canvasState == true)
+        {
+            try
+            {
+                if(args.length() == 1 && Cons.isString(args.car))
+                {
+                    this.ctx.textAlign = args.car;
+                    this.ctx.save();
+                    return InterpretedSymbol.of('t');
+                }
+                else
+                {
+                    selectPrintFunction()('Can not set text align.');
+                    return Cons.nil;
+                }
+            }
+            catch(e)
+            {
+                selectPrintFunction()('Can not set text align.');
+                return Cons.nil;
+            }
+        }
+        else
+        {
+            selectPrintFunction()('The canvas is closed and cannot be executed.');
+            return Cons.nil;
+        }
+    }
+
+    /**
+     * 描画するテキストのベースラインアライトメントを指定するメソッド
+     * @param {Cons} args 引数
+     * @return {*} インタプリテッドシンボルt、もしくはnil
+     */
+    gTextBaseline(args)
+    {
+        if(!this.checkSupport()){ return Cons.nil; }
+        if(this.canvasState == true)
+        {
+            try
+            {
+                if(args.length() == 1 && Cons.isString(args.car))
+                {
+                    this.ctx.textBaseline = args.car;
+                    this.ctx.save();
+                    return InterpretedSymbol.of('t');
+                }
+                else
+                {
+                    selectPrintFunction()('Can not set text baseline.');
+                    return Cons.nil;
+                }
+            }
+            catch(e)
+            {
+                selectPrintFunction()('Can not set text baseline.');
+                return Cons.nil;
+            }
+        }
+        else
+        {
+            selectPrintFunction()('The canvas is closed and cannot be executed.');
+            return Cons.nil;
+        }
+    }
+
+    /**
+     * 描画するテキストの方向を指定するメソッド
+     * @param {Cons} args 引数
+     * @return {*} インタプリテッドシンボルt、もしくはnil
+     */
+    gTextDirection(args)
+    {
+        if(!this.checkSupport()){ return Cons.nil; }
+        if(this.canvasState == true)
+        {
+            try
+            {
+                if(args.length() == 1 && Cons.isString(args.car))
+                {
+                    this.ctx.direction = args.car;
+                    this.ctx.save();
+                    return InterpretedSymbol.of('t');
+                }
+                else
+                {
+                    selectPrintFunction()('Can not set text direction.');
+                    return Cons.nil;
+                }
+            }
+            catch(e)
+            {
+                selectPrintFunction()('Can not set text direction.');
+                return Cons.nil;
+            }
+        }
+        else
+        {
+            selectPrintFunction()('The canvas is closed and cannot be executed.');
+            return Cons.nil;
+        }
+    }
+
+    /**
+     * 描画するテキストのフォントを指定するメソッド
+     * @param {Cons} args 引数
+     * @return {*} インタプリテッドシンボルt、もしくはnil
+     */
+    gTextFont(args)
+    {
+        if(!this.checkSupport()){ return Cons.nil; }
+        if(this.canvasState == true)
+        {
+            try
+            {
+                if(args.length() == 1 && Cons.isString(args.car))
+                {
+                    this.ctx.font = args.car;
+                    this.ctx.save();
+                    return InterpretedSymbol.of('t');
+                }
+                else
+                {
+                    selectPrintFunction()('Can not set text font.');
+                    return Cons.nil;
+                }
+            }
+            catch(e)
+            {
+                selectPrintFunction()('Can not set text font.');
                 return Cons.nil;
             }
         }
@@ -1271,19 +1550,11 @@ export class Graphist extends Object
         {
             try
             {
-                if(args.length() == 4)
+                if(args.length() == 4 && Cons.isNumber(args.car) && Cons.isNumber(args.cdr.car) && Cons.isNumber(args.cdr.cdr.car) && Cons.isNumber(args.cdr.cdr.cdr.car))
                 {
-                    if(Cons.isNumber(args.car) && Cons.isNumber(args.cdr.car) && Cons.isNumber(args.cdr.cdr.car) && Cons.isNumber(args.cdr.cdr.cdr.car))
-                    {
-                        this.ctx.rect(args.car, args.cdr.car, args.cdr.cdr.car, args.cdr.cdr.cdr.car);
-                        this.ctx.save();
-                        return InterpretedSymbol.of('t');
-                    }
-                    else
-                    {
-                        selectPrintFunction()('Can not draw rectangle.');
-                        return Cons.nil;
-                    }
+                    this.ctx.rect(args.car, args.cdr.car, args.cdr.cdr.car, args.cdr.cdr.cdr.car);
+                    this.ctx.save();
+                    return InterpretedSymbol.of('t');
                 }
                 else
                 {
@@ -1322,41 +1593,17 @@ export class Graphist extends Object
     selectColor(args)
     {
         let aColor = 'black';
-        if(args.length() == 1)
+        if(args.length() == 1 && Cons.isString(args.car))
         {
-            if(Cons.isString(args.car))
-            {
-                aColor = args.car;
-            }
-            else
-            {
-                selectPrintFunction()('Can not set color. set color "black".');
-                return Cons.nil;
-            }
+            aColor = args.car;
         }
-        else if(args.length() == 3)
+        else if(args.length() == 3 && Cons.isNumber(args.car) && Cons.isNumber(args.cdr.car) && Cons.isNumber(args.cdr.cdr.car))
         {
-            if(Cons.isNumber(args.car) && Cons.isNumber(args.cdr.car) && Cons.isNumber(args.cdr.cdr.car))
-            {
-                aColor = "rgb(" + args.car + ", " +  args.cdr.car + ", " +  args.cdr.cdr.car + ")";
-            }
-            else
-            {
-                selectPrintFunction()('Can not set color. set color "black".');
-                return Cons.nil;
-            }
+            aColor = "rgb(" + args.car + ", " +  args.cdr.car + ", " +  args.cdr.cdr.car + ")";
         }
-        else if(args.length() == 4)
+        else if(args.length() == 4 && Cons.isNumber(args.car) && Cons.isNumber(args.cdr.car) && Cons.isNumber(args.cdr.cdr.car) && Cons.isNumber(args.cdr.cdr.cdr.car))
         {
-            if(Cons.isNumber(args.car) && Cons.isNumber(args.cdr.car) && Cons.isNumber(args.cdr.cdr.car) && Cons.isNumber(args.cdr.cdr.cdr.car))
-            {
-                aColor = "rgba(" + args.car + ", " +  args.cdr.car + ", " +  args.cdr.cdr.car + ", " +  args.cdr.cdr.cdr.car + ")";
-            }
-            else
-            {
-                selectPrintFunction()('Can not set color. set color "black".');
-                return Cons.nil;
-            }
+            aColor = "rgba(" + args.car + ", " +  args.cdr.car + ", " +  args.cdr.cdr.car + ", " +  args.cdr.cdr.cdr.car + ")";
         }
         else
         {
@@ -1416,7 +1663,8 @@ export class Graphist extends Object
             aTable.set(InterpretedSymbol.of("gfill"), "gFill");
             aTable.set(InterpretedSymbol.of("gfill-color"), "gFillColor");
             aTable.set(InterpretedSymbol.of("gfill-rect"), "gFillRect");
-            aTable.set(InterpretedSymbol.of("gfill-tri"), "gFilltri");
+            aTable.set(InterpretedSymbol.of("gfill-text"), "gFillText");
+            aTable.set(InterpretedSymbol.of("gfill-tri"), "gFillTri");
 
             aTable.set(InterpretedSymbol.of("gfinish-path"), "gFinishPath");
             aTable.set(InterpretedSymbol.of("gmove-to"), "gMoveTo");
@@ -1432,13 +1680,25 @@ export class Graphist extends Object
 
             aTable.set(InterpretedSymbol.of("gsave-jpeg"), "gSaveJpeg");
             aTable.set(InterpretedSymbol.of("gsave-png"), "gSavePng");
+
+            aTable.set(InterpretedSymbol.of("gshadow-blur"), "gShadowBlur");
+            aTable.set(InterpretedSymbol.of("gshadow-color"), "gShadowColor");
+            aTable.set(InterpretedSymbol.of("gshadow-offsetx"), "gShadowOffsetX");
+            aTable.set(InterpretedSymbol.of("gshadow-offsety"), "gShadowOffsetY");
+
             aTable.set(InterpretedSymbol.of("gsleep"), "gSleep");
             aTable.set(InterpretedSymbol.of("gstart-path"), "gStartPath");
 
             aTable.set(InterpretedSymbol.of("gstroke"), "gStroke");
             aTable.set(InterpretedSymbol.of("gstroke-color"), "gStrokeColor");
             aTable.set(InterpretedSymbol.of("gstroke-rect"), "gStrokeRect");
+            aTable.set(InterpretedSymbol.of("gstroke-text"), "gStrokeText");
             aTable.set(InterpretedSymbol.of("gstroke-tri"), "gStrokeTri");
+
+            aTable.set(InterpretedSymbol.of("gtext-align"), "gTextAlign");
+            aTable.set(InterpretedSymbol.of("gtext-dire"), "gTextDirection");
+            aTable.set(InterpretedSymbol.of("gtext-font"), "gTextFont");
+            aTable.set(InterpretedSymbol.of("gtext-line"), "gTextBaseline");
 
             aTable.set(InterpretedSymbol.of("grect"), "gRect");
             
