@@ -14,9 +14,6 @@ import { Evaluator } from './Evaluator.js';
 //モジュール「InterpretedSymbol」を読み込む。
 import { InterpretedSymbol } from './InterpretedSymbol';
 
-// モジュール「StreamManager」を読み込む。
-import { StreamManager } from './StreamManager.js';
-
 // モジュール「Table」を読み込む。
 import { Table } from './Table.js';
 
@@ -68,7 +65,7 @@ export class Applier extends Object
     abs(args)
     {
         if(Cons.isNumber(args.car)){ return Math.abs(args.car); }
-        else { selectPrintFunction()('Can not apply \"abs\" to \"' + args.car + '\"'); }
+        else { selectPrintFunction()('Can not apply "abs" to "' + args.car + '"'); }
 
         return Cons.nil;
     }
@@ -81,7 +78,7 @@ export class Applier extends Object
     add(args)
     {
         if(Cons.isNumber(args.car)) { return this.add_Number(args.car, args.cdr); }
-        else { selectPrintFunction()('Can not apply \"add\" to \"' + args.car + '\"'); }
+        else { selectPrintFunction()('Can not apply "add" to "' + args.car + '"'); }
 
         return Cons.nil;
     }
@@ -103,7 +100,7 @@ export class Applier extends Object
             if(Cons.isNumber(each)){ result = result + each; }
             else 
             { 
-                selectPrintFunction()('Can not apply \"add\" to \"' + each + '\"'); 
+                selectPrintFunction()('Can not apply "add" to "' + each + '"'); 
                 return Cons.nil; 
             }
             aCons = aCons.cdr;
@@ -153,7 +150,7 @@ export class Applier extends Object
 
         for(let each of aCons.loop())
         {
-            if(Cons.isNotCons(each)){ selectPrintFunction()('Can not apply \"assoc\" to \"' + each + '\"') }
+            if(Cons.isNotCons(each)){ selectPrintFunction()('Can not apply "assoc" to "' + each + '"') }
             let key = each.car;
             if(this.equal_(new Cons(target, new Cons(key, Cons.nil))) == InterpretedSymbol.of('t')){ return each; }
         }
@@ -194,11 +191,11 @@ export class Applier extends Object
             theCons = theCons.cdr;
         }
 
-        if(Cons.isAtom(aCons.cdr) && (Cons.isNotNil(aCons.cdr)))
+        if(Cons.isNotList(aCons.cdr) && (Cons.isNotNil(aCons.cdr)))
         {
             try { this.environment.set(aCons.cdr, theCons.cdr); }
             catch(e) { selectPrintFunction()('sizes do not match.'); return null; }
-        }else if(Cons.isNotNil(aCons.cdr)){ throw new Error('Can not binding value to \"' + aList.cdr() + '\"'); }
+        }else if(Cons.isNotNil(aCons.cdr)){ throw new Error('Can not binding value to "' + aCons.cdr() + '"'); }
 
         return null;
     }
@@ -222,7 +219,11 @@ export class Applier extends Object
 
         methodName = Applier.buildInFunctions.get(procedure);
 
-        try { let method = this[methodName]; }
+        try 
+        { 
+            let method = this[methodName];
+            ((x) => {x})(method); // 何もしない。 
+        }
         catch(e){ selectPrintFunction()('Not Found Method: ' + methodName); }
 
         answer = R.invoker(1, methodName)(args, this); 
@@ -306,7 +307,7 @@ export class Applier extends Object
     divide(args)
     {
         if(Cons.isNumber(args.car)) { return this.divide_Number(args.car, args.cdr); }
-        else { selectPrintFunction()('Can not apply \"divide\" to \"' + args.car + '\"'); }
+        else { selectPrintFunction()('Can not apply "divide" to "' + args.car + '"'); }
 
         return Cons.nil;
     }
@@ -326,7 +327,7 @@ export class Applier extends Object
         {
             let each = aCons.car;
             if(Cons.isNumber(each)){ result = result / each; }
-            else { selectPrintFunction()('Can not apply \"divide\" to \"' + each + '\"'); return Cons.nil; }
+            else { selectPrintFunction()('Can not apply "divide" to "' + each + '"'); return Cons.nil; }
             aCons = aCons.cdr;
         }
 
@@ -405,7 +406,7 @@ export class Applier extends Object
      */
     format(args)
     {
-        if(!Cons.isString(args.car)){ selectPrintFunction()('Can not apply \"format\" to \"' + args.car + '\"'); }
+        if(!Cons.isString(args.car)){ selectPrintFunction()('Can not apply "format" to "' + args.car + '"'); }
         let aCons = args.cdr;
         let format = this.format_AUX(new String(args.car), aCons);
         selectPrintFunction()(String(format), '');
@@ -549,6 +550,7 @@ export class Applier extends Object
      */
     gensym(args = null)
     {
+        ((x) => {x})(args); // 何もしない。
         let aSymbol = InterpretedSymbol.of("id" + Applier.generateNumber);
         Applier.incrementGenerateNumber();
 
@@ -571,7 +573,7 @@ export class Applier extends Object
     greaterThan(args)
     {
         if(Cons.isNumber(args.car)) { return this.greaterThan_Number(args.car, args.cdr); }
-        else { selectPrintFunction()('Can not apply \">\" to \"' + args.car + '\"'); }
+        else { selectPrintFunction()('Can not apply ">" to "' + args.car + '"'); }
 
         return Cons.nil;
     }
@@ -592,7 +594,7 @@ export class Applier extends Object
         {
             let rightValue = aCons.car;
             if(Cons.isNumber(rightValue)){ aBoolean = leftValue > rightValue; }
-            else { selectPrintFunction()('Can not apply \">\" to \"' + rightValue + '\"'); return Cons.nil; }
+            else { selectPrintFunction()('Can not apply ">" to "' + rightValue + '"'); return Cons.nil; }
             if(aBoolean == false){ return Cons.nil }
             leftValue = rightValue;
             aCons = aCons.cdr;
@@ -609,7 +611,7 @@ export class Applier extends Object
     greaterThanOrEqual(args)
     {
         if(Cons.isNumber(args.car)) { return this.greaterThanOrEqual_Number(args.car, args.cdr); }
-        else { selectPrintFunction()('Can not apply \">=\" to \"' + args.car + '\"'); }
+        else { selectPrintFunction()('Can not apply ">=" to "' + args.car + '"'); }
 
         return Cons.nil;
     }
@@ -630,7 +632,7 @@ export class Applier extends Object
         {
             let rightValue = aCons.car;
             if(Cons.isNumber(rightValue)){ aBoolean = leftValue >= rightValue; }
-            else { selectPrintFunction()('Can not apply \">=\" to \"' + rightValue + '\"'); return Cons.nil; }
+            else { selectPrintFunction()('Can not apply ">=" to "' + rightValue + '"'); return Cons.nil; }
             if(aBoolean == false){ return Cons.nil }
             leftValue = rightValue;
             aCons = aCons.cdr;
@@ -705,7 +707,7 @@ export class Applier extends Object
     lessThan(args)
     {
         if(Cons.isNumber(args.car)) { return this.lessThan_Number(args.car, args.cdr); }
-        else { selectPrintFunction()('Can not apply \"<\" to \"' + args.car + '\"'); }
+        else { selectPrintFunction()('Can not apply "<" to "' + args.car + '"'); }
 
         return Cons.nil;
     }
@@ -726,7 +728,7 @@ export class Applier extends Object
         {
             let rightValue = aCons.car;
             if(Cons.isNumber(rightValue)){ aBoolean = leftValue < rightValue; }
-            else { selectPrintFunction()('Can not apply \"<\" to \"' + rightValue + '\"'); return Cons.nil; }
+            else { selectPrintFunction()('Can not apply "<" to "' + rightValue + '"'); return Cons.nil; }
             if(aBoolean == false){ return Cons.nil }
             leftValue = rightValue;
             aCons = aCons.cdr;
@@ -743,7 +745,7 @@ export class Applier extends Object
     lessThanOrEqual(args)
     {
         if(Cons.isNumber(args.car)) { return this.lessThanOrEqual_Number(args.car, args.cdr); }
-        else { selectPrintFunction()('Can not apply \"<=\" to \"' + args.car + '\"'); }
+        else { selectPrintFunction()('Can not apply "<=" to "' + args.car + '"'); }
 
         return Cons.nil;
     }
@@ -764,7 +766,7 @@ export class Applier extends Object
         {
             let rightValue = aCons.car;
             if(Cons.isNumber(rightValue)){ aBoolean = leftValue <= rightValue; }
-            else { selectPrintFunction()('Can not apply \"<=\" to \"' + rightValue + '\"'); return Cons.nil; }
+            else { selectPrintFunction()('Can not apply "<=" to "' + rightValue + '"'); return Cons.nil; }
             if(aBoolean == false){ return Cons.nil }
             leftValue = rightValue;
             aCons = aCons.cdr;
@@ -818,7 +820,7 @@ export class Applier extends Object
             if(Cons.isNotNil(each)){
                 for(let arg of options.loop())
                 {
-                    if(Cons.isNotCons(arg)){ consol.log('sizes do not match.'); return Cons.nil; }
+                    if(Cons.isNotCons(arg)){ selectPrintFunction()('sizes do not match.'); return Cons.nil; }
                     temporaryCons.setCdr(new Cons(arg.nth(index), Cons.nil));
                     temporaryCons = temporaryCons.cdr;
                 }
@@ -852,7 +854,7 @@ export class Applier extends Object
 
             if(aSymbol == InterpretedSymbol.of('eq?')){ anObject = this.eq_(new Cons(args.car, new Cons(aCons.car, Cons.nil))); }
             if(aSymbol == InterpretedSymbol.of('equal?')){ anObject = this.equal_(new Cons(args.car, new Cons(aCons.car, Cons.nil))); }
-            if(anObject == null){ selectPrintFunction()('Can not apply \"member\" to \"' + aSymbol + '\"') }
+            if(anObject == null){ selectPrintFunction()('Can not apply "member" to "' + aSymbol + '"') }
             if(anObject == InterpretedSymbol.of('t')){ return aCons; }
 
             aCons = aCons.cdr;
@@ -880,7 +882,7 @@ export class Applier extends Object
     mod(args)
     {
         if(Cons.isNumber(args.car)) { return this.mod_Number(args.car, args.cdr); }
-        else { selectPrintFunction()('Can not apply \"mod\" to \"' + args.car + '\"'); }
+        else { selectPrintFunction()('Can not apply "mod" to "' + args.car + '"'); }
 
         return Cons.nil;
     }
@@ -900,7 +902,7 @@ export class Applier extends Object
         {
             let each = aCons.car;
             if(Cons.isNumber(each)){ result = result % each; }
-            else { selectPrintFunction()('Can not apply \"mod\" to \"' + each + '\"'); return Cons.nil; }
+            else { selectPrintFunction()('Can not apply "mod" to "' + each + '"'); return Cons.nil; }
             aCons = aCons.cdr;
         }
 
@@ -915,7 +917,7 @@ export class Applier extends Object
     multiply(args)
     {
         if(Cons.isNumber(args.car)) { return this.multiply_Number(args.car, args.cdr); }
-        else { selectPrintFunction()('Can not apply \"multiply\" to \"' + args.car + '\"'); }
+        else { selectPrintFunction()('Can not apply "multiply" to "' + args.car + '"'); }
 
         return Cons.nil;
     }
@@ -935,7 +937,7 @@ export class Applier extends Object
         {
             let each = aCons.car;
             if(Cons.isNumber(each)){ result = result * each; }
-            else { selectPrintFunction()('Can not apply \"multiply\" to \"' + each + '\"'); return Cons.nil; }
+            else { selectPrintFunction()('Can not apply "multiply" to "' + each + '"'); return Cons.nil; }
             aCons = aCons.cdr;
         }
 
@@ -1116,7 +1118,7 @@ export class Applier extends Object
     subtract(args)
     {
         if(Cons.isNumber(args.car)) { return this.subtract_Number(args.car, args.cdr); }
-        else { selectPrintFunction()('Can not apply \"subtract\" to \"' + args.car + '\"'); }
+        else { selectPrintFunction()('Can not apply "subtract" to "' + args.car + '"'); }
 
         return Cons.nil;
     }
@@ -1136,7 +1138,7 @@ export class Applier extends Object
         {
             let each = aCons.car;
             if(Cons.isNumber(each)){ result = result - each; }
-            else { selectPrintFunction()('Can not apply \"subtract\" to \"' + each + '\"'); return Cons.nil; }
+            else { selectPrintFunction()('Can not apply "subtract" to "' + each + '"'); return Cons.nil; }
             aCons = aCons.cdr;
         }
 
