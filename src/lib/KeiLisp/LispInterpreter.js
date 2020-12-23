@@ -129,6 +129,7 @@ export class LispInterpreter extends Object
         aList.push('gfill-tri');
 
         aList.push('gfinish-path');
+        aList.push('gimage');
         aList.push('gmove-to');
         aList.push('gline-to');
 
@@ -142,6 +143,7 @@ export class LispInterpreter extends Object
 
         aList.push('gsave-jpeg');
         aList.push('gsave-png');
+        aList.push('gscale');
 
         aList.push('gshadow-blur')
         aList.push('gshadow-color')
@@ -157,7 +159,9 @@ export class LispInterpreter extends Object
         aList.push('gstroke-text');
         aList.push('gstroke-tri');
 
+        aList.push('gtranslate');
         aList.push('grect');
+        aList.push('grotate');
 
         aList.push('abs');
         aList.push('add');
@@ -174,6 +178,7 @@ export class LispInterpreter extends Object
         aList.push('cons');
         aList.push('consp');
         aList.push('copy');
+        aList.push('cos');
         aList.push('floatp');
         aList.push('defun');
         aList.push('divide');
@@ -184,6 +189,7 @@ export class LispInterpreter extends Object
         aList.push('eq');
         aList.push('equal');
         aList.push('exit');
+        aList.push('exp');
         aList.push('gc');
         aList.push('gensym');
         aList.push('if');
@@ -199,6 +205,7 @@ export class LispInterpreter extends Object
         aList.push('memq');
         aList.push('mod');
         aList.push('multiply');
+        aList.push('napier');
         aList.push('neq');
         aList.push('nequal');
         aList.push('not');
@@ -207,20 +214,26 @@ export class LispInterpreter extends Object
         aList.push('null');
         aList.push('numberp');
         aList.push('or');
+        aList.push('pi');
         aList.push('pop');
         aList.push('progn');
         aList.push('printc');
         aList.push('print');
         aList.push('push');
         aList.push('quote');
+        aList.push('random');
         aList.push('reload');
+        aList.push('round');
         aList.push('rplaca');
         aList.push('rplacd');
         aList.push('setq');
         aList.push('set-allq');
+        aList.push('sin');
+        aList.push('sqrt');
         aList.push('subtract');
         aList.push('stringp');
         aList.push('symbolp');
+        aList.push('tan');
         aList.push('terpri');
         aList.push('time');
         aList.push('trace');

@@ -356,7 +356,9 @@ export class Graphist extends Object
         {
             try
             {
-                this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+                this.ctx.fillStyle = "#ffffff"
+                this.ctx.fillRect(0, 0, this.canvasWidth, this.canvasHeight);
+                this.ctx.fillStyle = "#000000"
                 this.ctx.save();
                 return InterpretedSymbol.of('t');
             }
@@ -597,7 +599,7 @@ export class Graphist extends Object
                 if(args.length() == 6 && Cons.isNumber(args.car) && Cons.isNumber(args.cdr.car) && Cons.isNumber(args.cdr.cdr.car) && Cons.isNumber(args.cdr.cdr.cdr.car) && Cons.isNumber(args.cdr.cdr.cdr.cdr.car) && Cons.isNumber(args.cdr.cdr.cdr.cdr.cdr.car))
                 {
                     this.ctx.beginPath();
-                    this.ctx.lineTo(args.car, args.cdr.car);
+                    this.ctx.moveTo(args.car, args.cdr.car);
                     this.ctx.lineTo(args.cdr.cdr.car, args.cdr.cdr.cdr.car);
                     this.ctx.lineTo(args.cdr.cdr.cdr.cdr.car, args.cdr.cdr.cdr.cdr.cdr.car);
                     this.ctx.fill();
@@ -641,6 +643,57 @@ export class Graphist extends Object
             catch(e)
             {
                 selectPrintFunction()('Can not finish path.');
+                return Cons.nil;
+            }
+        }
+        else
+        {
+            selectPrintFunction()('The canvas is closed and cannot be executed.');
+            return Cons.nil;
+        }
+    }
+
+    /**
+     * 描画時のパターンを指定するメソッド
+     * @param {Cons} args 引数
+     * @return {*} インタプリテッドシンボルt、もしくはnil
+     */
+    gImage(args)
+    {
+        if(!this.checkSupport()){ return Cons.nil; }
+        if(this.canvasState == true)
+        {
+            try
+            {
+                if(args.length() == 3 && Cons.isString(args.car) && Cons.isNumber(args.cdr.car) && Cons.isNumber(args.cdr.cdr.car))
+                {
+                    let anImage  = new Image();
+                    anImage.src = args.car;
+                    anImage.onload = () => {
+                        this.ctx.fillStyle = this.ctx.drawImage(anImage, args.cdr.car, args.cdr.cdr.car);
+                    }
+                    this.ctx.save();
+                    return InterpretedSymbol.of('t');
+                }
+                else if(args.length() == 5 && Cons.isString(args.car) && Cons.isNumber(args.cdr.car) && Cons.isNumber(args.cdr.cdr.car) && Cons.isNumber(args.cdr.cdr.cdr.car) && Cons.isNumber(args.cdr.cdr.cdr.cdr.car))
+                {
+                    let anImage  = new Image();
+                    anImage.src = args.car;
+                    anImage.onload = () => {
+                        this.ctx.fillStyle = this.ctx.drawImage(anImage, args.cdr.car, args.cdr.cdr.car, args.cdr.cdr.cdr.car, args.cdr.cdr.cdr.cdr.car);
+                    }
+                    this.ctx.save();
+                    return InterpretedSymbol.of('t');
+                }
+                else
+                {
+                    selectPrintFunction()('Can not draw Image.');
+                    return Cons.nil;
+                }
+            }
+            catch(e)
+            {
+                selectPrintFunction()('Can not draw Image.');
                 return Cons.nil;
             }
         }
@@ -963,9 +1016,11 @@ export class Graphist extends Object
         {
             try
             {
-                let imageUrl = this.canvas.toDataURL("image/jpeg");
+                let anImage = new Image();
+                anImage.crossOrigin = 'Anonymous';
+                anImage.src = this.canvas.toDataURL("image/jpeg");
                 let link = document.createElement('a');
-                link.href = imageUrl;
+                link.href = anImage.src;
                 link.download = "canvas";
                 document.body.appendChild(link);
                 link.click();
@@ -975,7 +1030,7 @@ export class Graphist extends Object
             }
             catch(e)
             {
-                selectPrintFunction()('Can not save jpeg.');
+                selectPrintFunction()('Can not save jpeg.  If you are using an image in the canvas, you can\'t save jpeg.');
                 return Cons.nil;
             }
         }
@@ -998,9 +1053,11 @@ export class Graphist extends Object
         {
             try
             {
-                let imageUrl = this.canvas.toDataURL("image/png");
+                let anImage = new Image();
+                anImage.crossOrigin = 'Anonymous';
+                anImage.src = this.canvas.toDataURL("image/png");
                 let link = document.createElement('a');
-                link.href = imageUrl;
+                link.href = anImage.src;
                 link.download = "canvas";
                 document.body.appendChild(link);
                 link.click();
@@ -1010,13 +1067,50 @@ export class Graphist extends Object
             }
             catch(e)
             {
-                selectPrintFunction()('Can not save png.');
+                selectPrintFunction()('Can not save png. If you are using an image in the canvas, you can\'t save png.');
                 return Cons.nil;
             }
         }
         else
         {
             selectPrintFunction()('The canvas has already been opened.');
+            return Cons.nil;
+        }
+    }
+
+    /**
+     * キャンバスをスケーリングするメソッド
+     * @param {Cons} args 引数
+     * @return {*} インタプリテッドシンボルt、もしくはnil
+     */
+    gScale(args)
+    {
+        if(!this.checkSupport()){ return Cons.nil; }
+        if(this.canvasState == true)
+        {
+            try
+            {
+                if(args.length() == 2 && Cons.isNumber(args.car) && Cons.isNumber(args.cdr.car))
+                {
+                    this.ctx.scale(args.car, args.cdr.car);
+                    this.ctx.save();
+                    return InterpretedSymbol.of('t');
+                }
+                else
+                {
+                    selectPrintFunction()('Can not scale.');
+                    return Cons.nil;
+                }
+            }
+            catch(e)
+            {
+                selectPrintFunction()('Can not scale.');
+                return Cons.nil;
+            }
+        }
+        else
+        {
+            selectPrintFunction()('The canvas is closed and cannot be executed.');
             return Cons.nil;
         }
     }
@@ -1364,9 +1458,10 @@ export class Graphist extends Object
                 if(args.length() == 6 && Cons.isNumber(args.car) && Cons.isNumber(args.cdr.car) && Cons.isNumber(args.cdr.cdr.car) && Cons.isNumber(args.cdr.cdr.cdr.car) && Cons.isNumber(args.cdr.cdr.cdr.cdr.car) && Cons.isNumber(args.cdr.cdr.cdr.cdr.cdr.car))
                 {
                     this.ctx.beginPath();
-                    this.ctx.lineTo(args.car, args.cdr.car);
+                    this.ctx.moveTo(args.car, args.cdr.car);
                     this.ctx.lineTo(args.cdr.cdr.car, args.cdr.cdr.cdr.car);
                     this.ctx.lineTo(args.cdr.cdr.cdr.cdr.car, args.cdr.cdr.cdr.cdr.cdr.car);
+                    this.ctx.closePath();
                     this.ctx.stroke();
                     this.ctx.save();
                     return InterpretedSymbol.of('t');
@@ -1476,9 +1571,10 @@ export class Graphist extends Object
         {
             try
             {
-                if(args.length() == 1 && Cons.isString(args.car))
+                if(args.length() == 1 && Cons.isNumber(args.car))
                 {
-                    this.ctx.direction = args.car;
+                    let aString = args.car == 0 ? "inherit" : ( args.car > 0 ? "rtl" : "ltr" );
+                    this.ctx.direction = aString;
                     this.ctx.save();
                     return InterpretedSymbol.of('t');
                 }
@@ -1539,6 +1635,43 @@ export class Graphist extends Object
     }
 
     /**
+     * キャンバスの原点を移動させるメソッド
+     * @param {Cons} args 引数
+     * @return {*} インタプリテッドシンボルt、もしくはnil
+     */
+    gTranslate(args)
+    {
+        if(!this.checkSupport()){ return Cons.nil; }
+        if(this.canvasState == true)
+        {
+            try
+            {
+                if(args.length() == 2 && Cons.isNumber(args.car) && Cons.isNumber(args.cdr.car))
+                {
+                    this.ctx.translate(args.car, args.cdr.car);
+                    this.ctx.save();
+                    return InterpretedSymbol.of('t');
+                }
+                else
+                {
+                    selectPrintFunction()('Can not translate.');
+                    return Cons.nil;
+                }
+            }
+            catch(e)
+            {
+                selectPrintFunction()('Can not translate.');
+                return Cons.nil;
+            }
+        }
+        else
+        {
+            selectPrintFunction()('The canvas is closed and cannot be executed.');
+            return Cons.nil;
+        }
+    }
+
+    /**
      * 長方形を描画するメソッド
      * @param {Cons} args 引数
      * @return {*} インタプリテッドシンボルt、もしくはnil
@@ -1565,6 +1698,43 @@ export class Graphist extends Object
             catch(e)
             {
                 selectPrintFunction()('Can not draw rectangle.');
+                return Cons.nil;
+            }
+        }
+        else
+        {
+            selectPrintFunction()('The canvas is closed and cannot be executed.');
+            return Cons.nil;
+        }
+    }
+
+    /**
+     * キャンバスの原点を中心に描画時の座標回転させるメソッド
+     * @param {Cons} args 引数
+     * @return {*} インタプリテッドシンボルt、もしくはnil
+     */
+    gRotate(args)
+    {
+        if(!this.checkSupport()){ return Cons.nil; }
+        if(this.canvasState == true)
+        {
+            try
+            {
+                if(args.length() == 1 && Cons.isNumber(args.car))
+                {
+                    this.ctx.rotate((Math.PI/180)*args.car);
+                    this.ctx.save();
+                    return InterpretedSymbol.of('t');
+                }
+                else
+                {
+                    selectPrintFunction()('Can not rotate.');
+                    return Cons.nil;
+                }
+            }
+            catch(e)
+            {
+                selectPrintFunction()('Can not rotate.');
                 return Cons.nil;
             }
         }
@@ -1667,6 +1837,7 @@ export class Graphist extends Object
             aTable.set(InterpretedSymbol.of("gfill-tri"), "gFillTri");
 
             aTable.set(InterpretedSymbol.of("gfinish-path"), "gFinishPath");
+            aTable.set(InterpretedSymbol.of("gimage"), "gImage");
             aTable.set(InterpretedSymbol.of("gmove-to"), "gMoveTo");
             aTable.set(InterpretedSymbol.of("gline-to"), "gLineTo");
 
@@ -1680,6 +1851,7 @@ export class Graphist extends Object
 
             aTable.set(InterpretedSymbol.of("gsave-jpeg"), "gSaveJpeg");
             aTable.set(InterpretedSymbol.of("gsave-png"), "gSavePng");
+            aTable.set(InterpretedSymbol.of("gscale"), "gScale");
 
             aTable.set(InterpretedSymbol.of("gshadow-blur"), "gShadowBlur");
             aTable.set(InterpretedSymbol.of("gshadow-color"), "gShadowColor");
@@ -1700,7 +1872,9 @@ export class Graphist extends Object
             aTable.set(InterpretedSymbol.of("gtext-font"), "gTextFont");
             aTable.set(InterpretedSymbol.of("gtext-line"), "gTextBaseline");
 
+            aTable.set(InterpretedSymbol.of("gtranslate"), "gTranslate");
             aTable.set(InterpretedSymbol.of("grect"), "gRect");
+            aTable.set(InterpretedSymbol.of("grotate"), "gRotate");
             
             return aTable;
         }
