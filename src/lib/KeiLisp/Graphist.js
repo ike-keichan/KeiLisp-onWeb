@@ -1818,60 +1818,46 @@ export class Graphist extends Object
         {
             let aTable = new Map();
 
-            // aTable.set(InterpretedSymbol.of(""), "");
-
             aTable.set(InterpretedSymbol.of("galpha"), "gAlpha");
             aTable.set(InterpretedSymbol.of("garc"), "gArc");
             aTable.set(InterpretedSymbol.of("garc-to"), "gArcTo");
-
             aTable.set(InterpretedSymbol.of("gbezcurve-to"), "gBezCurveTo");
-
             aTable.set(InterpretedSymbol.of("gclear"), "gClear");
             aTable.set(InterpretedSymbol.of("gclose"), "gClose");
             aTable.set(InterpretedSymbol.of("gcolor"), "gColor");
-
             aTable.set(InterpretedSymbol.of("gfill"), "gFill");
             aTable.set(InterpretedSymbol.of("gfill-color"), "gFillColor");
             aTable.set(InterpretedSymbol.of("gfill-rect"), "gFillRect");
             aTable.set(InterpretedSymbol.of("gfill-text"), "gFillText");
             aTable.set(InterpretedSymbol.of("gfill-tri"), "gFillTri");
-
             aTable.set(InterpretedSymbol.of("gfinish-path"), "gFinishPath");
             aTable.set(InterpretedSymbol.of("gimage"), "gImage");
             aTable.set(InterpretedSymbol.of("gmove-to"), "gMoveTo");
             aTable.set(InterpretedSymbol.of("gline-to"), "gLineTo");
-
             aTable.set(InterpretedSymbol.of("gline-cap"), "gLineCap");
             aTable.set(InterpretedSymbol.of("gline-join"), "gLineJoin");
             aTable.set(InterpretedSymbol.of("gline-width"), "gLineWidth");
-
             aTable.set(InterpretedSymbol.of("gopen"), "gOpen");
             aTable.set(InterpretedSymbol.of("gpattern"), "gPattern");
             aTable.set(InterpretedSymbol.of("gquadcurve-to"), "gQuadCurveTo");
-
             aTable.set(InterpretedSymbol.of("gsave-jpeg"), "gSaveJpeg");
             aTable.set(InterpretedSymbol.of("gsave-png"), "gSavePng");
             aTable.set(InterpretedSymbol.of("gscale"), "gScale");
-
             aTable.set(InterpretedSymbol.of("gshadow-blur"), "gShadowBlur");
             aTable.set(InterpretedSymbol.of("gshadow-color"), "gShadowColor");
             aTable.set(InterpretedSymbol.of("gshadow-offsetx"), "gShadowOffsetX");
             aTable.set(InterpretedSymbol.of("gshadow-offsety"), "gShadowOffsetY");
-
             aTable.set(InterpretedSymbol.of("gsleep"), "gSleep");
             aTable.set(InterpretedSymbol.of("gstart-path"), "gStartPath");
-
             aTable.set(InterpretedSymbol.of("gstroke"), "gStroke");
             aTable.set(InterpretedSymbol.of("gstroke-color"), "gStrokeColor");
             aTable.set(InterpretedSymbol.of("gstroke-rect"), "gStrokeRect");
             aTable.set(InterpretedSymbol.of("gstroke-text"), "gStrokeText");
             aTable.set(InterpretedSymbol.of("gstroke-tri"), "gStrokeTri");
-
             aTable.set(InterpretedSymbol.of("gtext-align"), "gTextAlign");
             aTable.set(InterpretedSymbol.of("gtext-dire"), "gTextDirection");
             aTable.set(InterpretedSymbol.of("gtext-font"), "gTextFont");
             aTable.set(InterpretedSymbol.of("gtext-line"), "gTextBaseline");
-
             aTable.set(InterpretedSymbol.of("gtranslate"), "gTranslate");
             aTable.set(InterpretedSymbol.of("grect"), "gRect");
             aTable.set(InterpretedSymbol.of("grotate"), "gRotate");

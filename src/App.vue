@@ -58,15 +58,15 @@ export default {
             if(this.leftParentheses <= 0)
             {
                 this.aCons = this.interpreter.parse(this.buffer);
-                // try
-                // {
+                try
+                {
                     for(let each of this.aCons.loop()){ this.print(this.interpreter.eval(each).toString() + '\n'); }
-                // }
-                // catch (e) 
-                // {
-                //     this.print('*** can not eval ' + this.aCons.toString() + ' ***\n');
-                //     this.print(Cons.nil.toString() + '\n');
-                // }
+                }
+                catch (e) 
+                {
+                    this.print('*** can not eval ' + this.aCons.toString() + ' ***\n');
+                    this.print(Cons.nil.toString() + '\n');
+                }
 
                 this.leftParentheses = 0;
                 this.buffer = ''; 

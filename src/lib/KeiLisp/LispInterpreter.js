@@ -53,14 +53,14 @@ export class LispInterpreter extends Object
     {
         let anObject = Cons.nil;
 
-        // try { anObject = Evaluator.eval(aCons, this.root, this.streamManager); }
-        // catch (e) 
-        // {
-        //     selectPrintFunction()('*** can not eval ' + aCons.toString() + ' ***');
-        //     anObject = Cons.nil; 
-        // }
+        try { anObject = Evaluator.eval(aCons, this.root, this.streamManager); }
+        catch (e) 
+        {
+            selectPrintFunction()('*** can not eval ' + aCons.toString() + ' ***');
+            anObject = Cons.nil; 
+        }
 
-        anObject = Evaluator.eval(aCons, this.root, this.streamManager); //デバック用
+        // anObject = Evaluator.eval(aCons, this.root, this.streamManager); //デバック用
 
         return anObject;
     }
@@ -110,55 +110,42 @@ export class LispInterpreter extends Object
         let aTable = new Table();
         aTable.setRoot(true);
 
-        // aList.push('');
-
         aList.push('galpha');
         aList.push('garc');
         aList.push('garc-to');
-
         aList.push('gbezcurve-to');
-
         aList.push('gclear');
         aList.push('gclose');
         aList.push('gcolor');
-
         aList.push('gfill');
         aList.push('gfill-color');
         aList.push('gfill-rect');
         aList.push('gfill-text');
         aList.push('gfill-tri');
-
         aList.push('gfinish-path');
         aList.push('gimage');
         aList.push('gmove-to');
         aList.push('gline-to');
-
         aList.push('gline-cap');
         aList.push('gline-join');
         aList.push('gline-width');
-
         aList.push('gopen');
         aList.push('gpattern');
         aList.push('gquadcurve-to');
-
         aList.push('gsave-jpeg');
         aList.push('gsave-png');
         aList.push('gscale');
-
         aList.push('gshadow-blur')
         aList.push('gshadow-color')
         aList.push('gshadow-offsetx')
         aList.push('gshadow-offsety');
-
         aList.push('gsleep');
         aList.push('gstart-path');
-
         aList.push('gstroke');
         aList.push('gstroke-color');
         aList.push('gstroke-rect');
         aList.push('gstroke-text');
         aList.push('gstroke-tri');
-
         aList.push('gtranslate');
         aList.push('grect');
         aList.push('grotate');
