@@ -2,7 +2,7 @@
     <div id="app">
         <h4>
             Hello! This is an interpreter that mimics Lisp, "KeiLisp".<br>
-            2020.12.17 created by Keisuke Ikeda.
+            2021.1.1 created by Keisuke Ikeda.
         </h4>
         <pre>{{ output }}{{ prompt }}<input id="clinput" name="clinput" type="text" v-model="input" autocomplete="off"></pre>
         <textarea @focus="messagePrint" id="Message" cols="1" rows="1" readonly></textarea>
