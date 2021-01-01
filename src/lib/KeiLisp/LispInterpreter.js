@@ -109,7 +109,47 @@ export class LispInterpreter extends Object
         let aList = new Array();
         let aTable = new Table();
         aTable.setRoot(true);
-        
+
+        aList.push('galpha');
+        aList.push('garc');
+        aList.push('garc-to');
+        aList.push('gbezcurve-to');
+        aList.push('gclear');
+        aList.push('gclose');
+        aList.push('gcolor');
+        aList.push('gfill');
+        aList.push('gfill-color');
+        aList.push('gfill-rect');
+        aList.push('gfill-text');
+        aList.push('gfill-tri');
+        aList.push('gfinish-path');
+        aList.push('gimage');
+        aList.push('gmove-to');
+        aList.push('gline-to');
+        aList.push('gline-cap');
+        aList.push('gline-join');
+        aList.push('gline-width');
+        aList.push('gopen');
+        aList.push('gpattern');
+        aList.push('gquadcurve-to');
+        aList.push('gsave-jpeg');
+        aList.push('gsave-png');
+        aList.push('gscale');
+        aList.push('gshadow-blur')
+        aList.push('gshadow-color')
+        aList.push('gshadow-offsetx')
+        aList.push('gshadow-offsety');
+        aList.push('gsleep');
+        aList.push('gstart-path');
+        aList.push('gstroke');
+        aList.push('gstroke-color');
+        aList.push('gstroke-rect');
+        aList.push('gstroke-text');
+        aList.push('gstroke-tri');
+        aList.push('gtranslate');
+        aList.push('grect');
+        aList.push('grotate');
+
         aList.push('abs');
         aList.push('add');
         aList.push('and');
@@ -125,6 +165,7 @@ export class LispInterpreter extends Object
         aList.push('cons');
         aList.push('consp');
         aList.push('copy');
+        aList.push('cos');
         aList.push('floatp');
         aList.push('defun');
         aList.push('divide');
@@ -135,6 +176,7 @@ export class LispInterpreter extends Object
         aList.push('eq');
         aList.push('equal');
         aList.push('exit');
+        aList.push('exp');
         aList.push('gc');
         aList.push('gensym');
         aList.push('if');
@@ -150,6 +192,7 @@ export class LispInterpreter extends Object
         aList.push('memq');
         aList.push('mod');
         aList.push('multiply');
+        aList.push('napier');
         aList.push('neq');
         aList.push('nequal');
         aList.push('not');
@@ -158,20 +201,26 @@ export class LispInterpreter extends Object
         aList.push('null');
         aList.push('numberp');
         aList.push('or');
+        aList.push('pi');
         aList.push('pop');
         aList.push('progn');
         aList.push('printc');
         aList.push('print');
         aList.push('push');
         aList.push('quote');
+        aList.push('random');
         aList.push('reload');
+        aList.push('round');
         aList.push('rplaca');
         aList.push('rplacd');
         aList.push('setq');
         aList.push('set-allq');
+        aList.push('sin');
+        aList.push('sqrt');
         aList.push('subtract');
         aList.push('stringp');
         aList.push('symbolp');
+        aList.push('tan');
         aList.push('terpri');
         aList.push('time');
         aList.push('trace');
@@ -198,7 +247,7 @@ export class LispInterpreter extends Object
 
         let aString = new String();
         let aCons = new Cons();
-        aString = "(lambda (list1 list2) (cond ((atom list1) nil) ((atom list2) nil) ((null list1) list2) (t (cons (car list1) (append (cdr list1) list2)))))";
+        aString = "(lambda (list1 list2) (cond ((null (listp list1)) nil) ((null (listp list2)) nil) ((null list1) list2) (t (cons (car list1) (append (cdr list1) list2)))))";
         aCons = Cons.parse(aString);
         aCons.last().setCdr(new Cons(aTable, Cons.nil));
         aTable.set(InterpretedSymbol.of('append'), aCons);
@@ -208,7 +257,7 @@ export class LispInterpreter extends Object
         aCons.last().setCdr(new Cons(aTable, Cons.nil));
 		aTable.set(InterpretedSymbol.of('butlast'), aCons);
 
-		aString = "(lambda (l) (cond ((atom l) nil) ((null l) 0)	(t (+ 1 (length (cdr l))))))";
+		aString = "(lambda (l) (cond ((null (listp l)) nil) ((null l) 0) (t (+ 1 (length (cdr l))))))";
         aCons = Cons.parse(aString);
         aCons.last().setCdr(new Cons(aTable, Cons.nil));
 		aTable.set(InterpretedSymbol.of('length'), aCons);
@@ -218,7 +267,7 @@ export class LispInterpreter extends Object
         aCons.last().setCdr(new Cons(aTable, Cons.nil));
 		aTable.set(InterpretedSymbol.of('nthcdr'), aCons);
 
-		aString = "(lambda (l) (cond ((atom l) l) ((null l) '()) (t (append (reverse (cdr l)) (list (car l))))))";
+		aString = "(lambda (l) (cond ((null (listp l)) l) ((null l) '()) (t (append (reverse (cdr l)) (list (car l))))))";
         aCons = Cons.parse(aString);
         aCons.last().setCdr(new Cons(aTable, Cons.nil));
         aTable.set(InterpretedSymbol.of('reverse'), aCons);

@@ -11,6 +11,9 @@ import { Applier } from './Applier.js';
 // モジュール「Cons」を読み込む。
 import { Cons } from './Cons.js';
 
+// モジュール「Graphist」を読み込む。
+import { Graphist } from './Graphist';
+
 //モジュール「InterpretedSymbol」を読み込む。
 import { InterpretedSymbol } from './InterpretedSymbol';
 
@@ -56,7 +59,6 @@ export class Evaluator extends Object
         this.environment = aTable;
         this.streamManager = aStreamManager;
         this.depth = aNumber;
-        this.canvas = document.querySelector("#glCanvas");
 
         return this;
     }
@@ -99,7 +101,7 @@ export class Evaluator extends Object
      */
     bind(aCons)
     {
-        if(Cons.isNotSymbol(aCons.car)){ selectPrintFunction()('Can not apply \"bind\" to \"' + aCons.car + '\"'); return Cons.nil;}
+        if(Cons.isNotSymbol(aCons.car)){ selectPrintFunction()('Can not apply "bind" to "' + aCons.car + '"'); return Cons.nil;}
         let aSymbol = aCons.car;
         if(!this.environment.has(aSymbol)){ return Cons.nil; }
 
@@ -145,7 +147,7 @@ export class Evaluator extends Object
             let theCons = each;
             let key = null;
             if(Cons.isSymbol(theCons.car)){ key = theCons.car; }
-            else{ selectPrintFunction()('\"' + theCons.car + '\" is not symbol'); }
+            else{ selectPrintFunction()('"' + theCons.car + '" is not symbol'); }
             let value = Evaluator.eval(theCons.nth(2), aTable, this.streamManager, this.depth);
             aTable.set(key, value);
         }
@@ -167,7 +169,7 @@ export class Evaluator extends Object
             let theCons = each;
             let key = null;
             if(Cons.isSymbol(theCons.car)){ key = theCons.car; }
-            else{ selectPrintFunction()('\"' + theCons.car + '\" is not symbol'); }
+            else{ selectPrintFunction()('"' + theCons.car + '" is not symbol'); }
             let value = Evaluator.eval(theCons.nth(2), aTable, this.streamManager, this.depth);
             theTable.set(key, value);
         }
@@ -179,10 +181,9 @@ export class Evaluator extends Object
 
     /**
      * ブラウザの出力を削除するメソッド、KeiLisp-onWeb専用。
-     * @param {*} args 引数
      * @return {InterpretedSymbol} インタプリテッドシンボルt
      */
-    clear(args = null)
+    clear()
     {
         clearPrintFunction();
         return InterpretedSymbol.of('t');
@@ -237,16 +238,15 @@ export class Evaluator extends Object
         this.bindingParallel(parameters, this.environment);
         if(Cons.isNil(bool)){ bool.setCar(Cons.nil); }
 
-        while(true)
+        while(Cons.isNil(Evaluator.eval(bool.car, this.environment, this.streamManager, this.depth)))
         {
             let theTable = new Map();
             let value;
-            if(Cons.isNotNil(Evaluator.eval(bool.car, this.environment, this.streamManager, this.depth))){ break; }
             for(let each of expressions.loop()){ Evaluator.eval(each, this.environment, this.streamManager, this.depth); }
             for(let each of parameters.loop())
             {
                 let theCons = each;
-                if(Cons.isNotSymbol(theCons.car)){ selectPrintFunction()('\"' + theCons.car + '\" is not symbol'); }
+                if(Cons.isNotSymbol(theCons.car)){ selectPrintFunction()('"' + theCons.car + '" is not symbol'); }
                 let key = theCons.car;
                 if(Cons.isNotNil(theCons.nth(3)))
                 {
@@ -291,14 +291,13 @@ export class Evaluator extends Object
         this.binding(parameters, this.environment);
         if(Cons.isNil(bool)){ bool.setCar(Cons.nil); }
 
-        while(true)
+        while(Cons.isNil(Evaluator.eval(bool.car, this.environment, this.streamManager, this.depth)))
         {
-            if(Cons.isNotNil(Evaluator.eval(bool.car, this.environment, this.streamManager, this.depth))){ break; }
             for(let each of expressions.loop()){ Evaluator.eval(each, this.environment, this.streamManager, this.depth); }
             for(let each of parameters.loop())
             {
                 let theCons = each;
-                if(Cons.isNotSymbol(theCons.car)){ selectPrintFunction()('\"' + theCons.car + '\" is not symbol'); }
+                if(Cons.isNotSymbol(theCons.car)){ selectPrintFunction()('"' + theCons.car + '" is not symbol'); }
                 let key = theCons.car;
                 let value;
                 if(Cons.isNotNil(theCons.nth(3)))
@@ -343,6 +342,37 @@ export class Evaluator extends Object
     }
 
     /**
+     * EvaluatorでできないことをApplierに任せ、結果を応答するメソッド
+     * @param {*} form 評価するCons、又はスペシャルフォーム
+     * @return {*} 計算結果
+     */
+    entrustGraphist(form)
+    {
+        let aCons = form.cdr;
+        let args = new Cons(Cons.nil, Cons.nil);
+        let procedure = form.car;
+        let aSymbol = null;
+
+        if(Cons.isSymbol(procedure)){ aSymbol = procedure; }
+        if(this.isSpy(aSymbol))
+        {
+            this.spyPrint(this.streamManager.spyStream(aSymbol), form.toString());
+            this.setDepth(this.depth + 1);
+        }
+
+        for(let each of aCons.loop())
+        {
+            if(each instanceof Table){ break; }
+            args.add(Evaluator.eval(each, this.environment, this.streamManager, this.depth));
+        }
+        if(this.isSpy(aSymbol)){ this.setDepth(this.depth - 1); }
+
+        args = args.cdr;
+        let anObject = Graphist.draw(procedure, args, this.environment, this.streamManager, this.depth);
+        return anObject;
+    }
+
+    /**
      * Evaluatorを実行するメソッド
      * @param {*} form 評価するCons、又はスペシャルフォーム
      * @param {Table} environment 環境のテーブル（予約語）
@@ -363,8 +393,9 @@ export class Evaluator extends Object
     eval(form)
     {
         if(Cons.isSymbol(form)){ return this.evaluateSymbol(form); }
-        if(Cons.isNil(form) || Cons.isAtom(form)){ return form; }
+        if(Cons.isNil(form) || Cons.isNotList(form)){ return form; }
         if(Cons.isSymbol(form.car) &&  Evaluator.buildInFunctions.has(form.car)){ return this.specialForm(form); }
+        if(Graphist.buildInFunctions.has(form.car)){ return this.entrustGraphist(form); }
 
         return this.entrustApplier(form);
     }
@@ -411,9 +442,9 @@ export class Evaluator extends Object
 
     /**
      * 処理系を終了するメソッド
-     * @param {*} args 引数
+     * @return {Cons} nil
      */
-    exit(args = null)
+    exit()
     {
         selectPrintFunction()('Bye!');
         selectPrintFunction()('Can\'t close the browser\'s tabs due to security issues.')
@@ -422,13 +453,12 @@ export class Evaluator extends Object
 
     /**
      * ガベージコレクタを実行するメソッド
-     * @param {*} args 引数
-     * @return {InterpretedSymbol} インタプリテッドシンボルt
+     * @return {Cons} nil
      */
-    gc(args = null)
+    gc()
     {
         selectPrintFunction()('Can\'t to garbage-collect.')
-        return InterpretedSymbol.of('t');
+        return Cons.nil;
     }
 
     /**
@@ -534,10 +564,9 @@ export class Evaluator extends Object
 
     /**
      * トレースしないように設定するメソッド
-     * @param {*} args 引数
      * @return {InterpretedSymbol} インタプリテッドシンボルt
      */
-    notrace(args = null)
+    notrace()
     {
         this.streamManager.noTrace();
 		return InterpretedSymbol.of("t");
@@ -647,9 +676,9 @@ export class Evaluator extends Object
 
     /**
      * ブラウザをリロードするメソッド、KeiLisp-onWeb専用。
-     * @param {*} args 引数
+     * @return {InterpretedSymbol} インタぷリテッドシンボルt
      */
-    reload(args = null)
+    reload()
     {
         selectPrintFunction()('Reload this page...')
         location.reload()
@@ -664,7 +693,7 @@ export class Evaluator extends Object
     rplaca(args)
     {
         let anObject = Evaluator.eval(args.car, this.environment, this.streamManager, this.depth);
-        if(Cons.isNotCons(anObject)){ selectPrintFunction()('Can not apply \"set-car!\" to \"' + anObject + '\"'); return Cons.nil; }
+        if(Cons.isNotCons(anObject)){ selectPrintFunction()('Can not apply "set-car!" to "' + anObject + '"'); return Cons.nil; }
         let aCons = anObject;
         anObject = Evaluator.eval(args.nth(2), this.environment, this.streamManager, this.depth);
         aCons.setCar(anObject);
@@ -680,7 +709,7 @@ export class Evaluator extends Object
     rplacd(args)
     {
         let anObject = Evaluator.eval(args.car, this.environment, this.streamManager, this.depth);
-        if(Cons.isNotCons(anObject)){ selectPrintFunction()('Can not apply \"set-cdr!\" to \"' + anObject + '\"'); return Cons.nil; }
+        if(Cons.isNotCons(anObject)){ selectPrintFunction()('Can not apply "set-cdr!" to "' + anObject + '"'); return Cons.nil; }
         let aCons = anObject;
         anObject = Evaluator.eval(args.nth(2), this.environment, this.streamManager, this.depth);
         aCons.setCdr(anObject);
@@ -704,7 +733,7 @@ export class Evaluator extends Object
             let key = null;
 
             if(Cons.isSymbol(args.nth(index + 2))){ key = anIterator.next(); }
-            else{ selectPrintFunction()('\"' + args.car + '\" is not symbol'); }
+            else{ selectPrintFunction()('"' + args.car + '" is not symbol'); }
 
             if(!anIterator.hasNext()){ selectPrintFunction()('sizes do not match.'); }
             anObject = Evaluator.eval(anIterator.next(), this.environment, this.streamManager, this.depth);
@@ -731,7 +760,7 @@ export class Evaluator extends Object
             let key = null;
 
             if(Cons.isSymbol(args.nth(index + 2))){ key = anIterator.next(); }
-            else{ selectPrintFunction()('\"' + args.car + '\" is not symbol'); }
+            else{ selectPrintFunction()('"' + args.car + '" is not symbol'); }
             anObject = Evaluator.eval(anIterator.next(), this.environment, this.streamManager, this.depth);
             this.environment.setIfExit(key, anObject);
         }
@@ -819,7 +848,11 @@ export class Evaluator extends Object
         let aCons = form.cdr;
         let methodName = Evaluator.buildInFunctions.get(aSymbol);
 
-        try { let method = this[methodName]; }
+        try 
+        { 
+            let method = this[methodName]; 
+            ((x) => {x})(method); // 何もしない。 
+        }
         catch(e){ throw new Error('Not Found Method: ' + methodName); }
 
         let answer = R.invoker(1, methodName)(aCons, this);
@@ -844,10 +877,9 @@ export class Evaluator extends Object
 
     /**
      * 改行を出力するメソッド
-     * @param {*} args 引数
      * @return {InterpretedSymbol} インタプリテッドシンボルt
      */
-    terpri(args = null)
+    terpri()
     {
         selectPrintFunction()('');
         return InterpretedSymbol.of('t');
@@ -870,10 +902,9 @@ export class Evaluator extends Object
 
     /**
      * トレースするように設定するメソッド
-     * @param {Cons} aCons トレースするCons
      * @return {InterpretedSymbol} インタプリテッドシンボルt
      */
-    trace(aCons = null)
+    trace()
     {
         this.streamManager.trace();
         return InterpretedSymbol.of('t');

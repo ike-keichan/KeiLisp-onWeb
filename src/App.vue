@@ -2,11 +2,15 @@
     <div id="app">
         <h4>
             Hello! This is an interpreter that mimics Lisp, "KeiLisp".<br>
-            2020.12.04 created by Keisuke Ikeda.
+            2021.1.1 created by Keisuke Ikeda.
         </h4>
         <pre>{{ output }}{{ prompt }}<input id="clinput" name="clinput" type="text" v-model="input" autocomplete="off"></pre>
         <textarea @focus="messagePrint" id="Message" cols="1" rows="1" readonly></textarea>
         <textarea @focus="clearPrint" id="Clear" cols="1" rows="1" readonly></textarea>
+        <div id="canvasContents">
+            <textarea id="canvasState" value="false" cols="1" rows="1" readonly></textarea>
+            <canvas id="glCanvas" width="600" height="300" style="display: block;"></canvas>
+        </div>
     </div>
 </template>
 
@@ -127,9 +131,8 @@ export default {
     width: 95%;
 }
 
-.contents {
-    height: 100%;
-    width: 100%;
+#canvasState {
+        color: #ffffff;
 }
 
 html {
@@ -155,8 +158,12 @@ textarea {
 
 @media (prefers-color-scheme: dark) {
     html, input, textarea {
-        background-color: #000;
+        background-color: #000000;
         color: #0066cc;
+    }
+
+    #canvasState {
+        color: #000000;
     }
 }
 </style>
