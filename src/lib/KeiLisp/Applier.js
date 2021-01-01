@@ -271,7 +271,7 @@ export class Applier extends Object
     /**
      * 第一引数と第二引数のリストを結合し、応答するメソッド
      * @param {Cons} args 引数
-     * @return {*} 評価結果
+     * @return {Cons} 評価結果
      */
     cons(args)
     {
@@ -362,6 +362,7 @@ export class Applier extends Object
      * ApplierでできないことをEvaluatorに任せ、結果を応答するメソッド
      * @param {Cons} procedure 関数名、又はオペレータ
      * @param {Cons} args 引数の値
+     * @return {Object}
      */
     entrustEvaluator(procedure, args)
     {
@@ -571,12 +572,10 @@ export class Applier extends Object
 
     /**
      * 新たなインタプリテッドシンボルを応答するメソッド
-     * @param {Cons} args 引数
-     * @return {*} 評価結果
+     * @return {InterpretedSymbol} 評価結果
      */
-    gensym(args = null)
+    gensym()
     {
-        ((x) => {x})(args); // 何もしない。
         let aSymbol = InterpretedSymbol.of("id" + Applier.generateNumber);
         Applier.incrementGenerateNumber();
 
@@ -803,7 +802,7 @@ export class Applier extends Object
 
     /**
 	 * 引数の値をリストにまとめて応答する.
-	 * @param args
+	 * @param {Object} args 引数
 	 * @return {*} 評価結果
 	 */
     list(args)
@@ -972,7 +971,6 @@ export class Applier extends Object
 
     /**
      * ネイピア数を応答するメソッド
-     * @param {Cons} args 引数
      * @return {Number} 計算結果
      */
     napier()

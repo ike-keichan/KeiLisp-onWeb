@@ -181,12 +181,10 @@ export class Evaluator extends Object
 
     /**
      * ブラウザの出力を削除するメソッド、KeiLisp-onWeb専用。
-     * @param {*} args 引数
      * @return {InterpretedSymbol} インタプリテッドシンボルt
      */
-    clear(args = null)
+    clear()
     {
-        ((x) => {x})(args); // 何もしない。
         clearPrintFunction();
         return InterpretedSymbol.of('t');
     }
@@ -370,7 +368,7 @@ export class Evaluator extends Object
         if(this.isSpy(aSymbol)){ this.setDepth(this.depth - 1); }
 
         args = args.cdr;
-        let anObject = Graphist.graphic(procedure, args, this.environment, this.streamManager, this.depth);
+        let anObject = Graphist.draw(procedure, args, this.environment, this.streamManager, this.depth);
         return anObject;
     }
 
@@ -444,11 +442,10 @@ export class Evaluator extends Object
 
     /**
      * 処理系を終了するメソッド
-     * @param {*} args 引数
+     * @return {Cons} nil
      */
-    exit(args = null)
+    exit()
     {
-        ((x) => {x})(args); // 何もしない。
         selectPrintFunction()('Bye!');
         selectPrintFunction()('Can\'t close the browser\'s tabs due to security issues.')
         return Cons.nil;
@@ -456,14 +453,12 @@ export class Evaluator extends Object
 
     /**
      * ガベージコレクタを実行するメソッド
-     * @param {*} args 引数
-     * @return {InterpretedSymbol} インタプリテッドシンボルt
+     * @return {Cons} nil
      */
-    gc(args = null)
+    gc()
     {
-        ((x) => {x})(args); // 何もしない。
         selectPrintFunction()('Can\'t to garbage-collect.')
-        return InterpretedSymbol.of('t');
+        return Cons.nil;
     }
 
     /**
@@ -569,12 +564,10 @@ export class Evaluator extends Object
 
     /**
      * トレースしないように設定するメソッド
-     * @param {*} args 引数
      * @return {InterpretedSymbol} インタプリテッドシンボルt
      */
-    notrace(args = null)
+    notrace()
     {
-        ((x) => {x})(args); // 何もしない。
         this.streamManager.noTrace();
 		return InterpretedSymbol.of("t");
     }
@@ -683,11 +676,10 @@ export class Evaluator extends Object
 
     /**
      * ブラウザをリロードするメソッド、KeiLisp-onWeb専用。
-     * @param {*} args 引数
+     * @return {InterpretedSymbol} インタぷリテッドシンボルt
      */
-    reload(args = null)
+    reload()
     {
-        ((x) => {x})(args); // 何もしない。
         selectPrintFunction()('Reload this page...')
         location.reload()
         return InterpretedSymbol.of('t');
@@ -885,12 +877,10 @@ export class Evaluator extends Object
 
     /**
      * 改行を出力するメソッド
-     * @param {*} args 引数
      * @return {InterpretedSymbol} インタプリテッドシンボルt
      */
-    terpri(args = null)
+    terpri()
     {
-        ((x) => {x})(args); // 何もしない。
         selectPrintFunction()('');
         return InterpretedSymbol.of('t');
     }
@@ -912,12 +902,10 @@ export class Evaluator extends Object
 
     /**
      * トレースするように設定するメソッド
-     * @param {Cons} aCons トレースするCons
      * @return {InterpretedSymbol} インタプリテッドシンボルt
      */
-    trace(aCons = null)
+    trace()
     {
-        ((x) => {x})(aCons); // 何もしない。
         this.streamManager.trace();
         return InterpretedSymbol.of('t');
     }

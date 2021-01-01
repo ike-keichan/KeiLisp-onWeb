@@ -149,6 +149,32 @@ export class Graphist extends Object
     }
 
     /**
+     * Graphistを実行するメソッド
+     * @param {*} procedure 関数名、又はオペレータ
+     * @param {*} args 引数の値
+     * @param {Table} environment 環境のテーブル（予約語）
+     * @param {StreamManager} aStreamManager 
+     * @param {Number} depth 呼び出しの深さ
+     * @return {*} 計算結果
+     */
+    static draw(procedure, args, environment, aStreamManager = new StreamManager(), depth = 1)
+    {
+        return new Graphist(environment, aStreamManager, depth).draw(procedure, args);
+    }
+    
+     /**
+     * Graphistを実行するメソッド
+     * @param {*} procedure 関数名、又はオペレータ
+     * @param {*} args 引数の値
+     * @return {*} 計算結果
+     */
+    draw(procedure, args)
+    {
+        if(Cons.isSymbol(procedure)){ return this.selectProcedure(procedure, args); }
+        return this.entrustEvaluator(procedure, args);
+    }
+
+    /**
      * GraphistでできないことをEvaluatorに任せ、結果を応答するメソッド
      * @param {Cons} procedure 関数名、又はオペレータ
      * @param {Cons} args 引数の値
@@ -167,32 +193,6 @@ export class Graphist extends Object
         }
 
         return anObject;
-    }
-
-    /**
-     * Graphistを実行するメソッド
-     * @param {*} procedure 関数名、又はオペレータ
-     * @param {*} args 引数の値
-     * @param {Table} environment 環境のテーブル（予約語）
-     * @param {StreamManager} aStreamManager 
-     * @param {Number} depth 呼び出しの深さ
-     * @return {*} 計算結果
-     */
-    static graphic(procedure, args, environment, aStreamManager = new StreamManager(), depth = 1)
-    {
-        return new Graphist(environment, aStreamManager, depth).graphic(procedure, args);
-    }
-    
-     /**
-     * Graphistを実行するメソッド
-     * @param {*} procedure 関数名、又はオペレータ
-     * @param {*} args 引数の値
-     * @return {*} 計算結果
-     */
-    graphic(procedure, args)
-    {
-        if(Cons.isSymbol(procedure)){ return this.selectProcedure(procedure, args); }
-        return this.entrustEvaluator(procedure, args);
     }
 
     /**

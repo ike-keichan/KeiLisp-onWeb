@@ -304,7 +304,7 @@ export class Cons extends Object
     /**
      * 指定された文字列を字句解析してConsを生成し、応答するメソッド
      * @param {String} aString 字句解析する文字列
-     * @return {}
+     * @return {Cons}
      */
     static parse(aString)
     {    
