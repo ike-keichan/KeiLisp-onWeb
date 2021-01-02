@@ -1143,11 +1143,10 @@ export class Applier extends Object
             aTable.set(InterpretedSymbol.of("round"), "round");
             aTable.set(InterpretedSymbol.of("sin"), "sin");
             aTable.set(InterpretedSymbol.of("sqrt"), "sqrt");
-            aTable.set(InterpretedSymbol.of("tan"), "tan");
 			aTable.set(InterpretedSymbol.of("subtract"), "subtract");
 			aTable.set(InterpretedSymbol.of("stringp"), "string_");
             aTable.set(InterpretedSymbol.of("symbolp"), "symbol_");
-            aTable.set(InterpretedSymbol.of(""), "");
+            aTable.set(InterpretedSymbol.of("tan"), "tan");
 			aTable.set(InterpretedSymbol.of("+"), "add");
 			aTable.set(InterpretedSymbol.of("-"), "subtract");
 			aTable.set(InterpretedSymbol.of("*"), "multiply");

@@ -416,7 +416,7 @@ export class Graphist extends Object
         {
             try
             {
-                if(args.length() == 1)
+                if(args.length() >= 1)
                 {
                     let aColor = this.selectColor(args);
                     this.ctx.fillStyle = aColor;
@@ -484,7 +484,7 @@ export class Graphist extends Object
         {
             try
             {
-                if(args.length() == 1)
+                if(args.length() >= 1)
                 {
                     let aColor = this.selectColor(args);
                     this.ctx.fillStyle = aColor;
@@ -654,7 +654,7 @@ export class Graphist extends Object
     }
 
     /**
-     * 描画時のパターンを指定するメソッド
+     * 画像を描画するメソッド
      * @param {Cons} args 引数
      * @return {*} インタプリテッドシンボルt、もしくはnil
      */

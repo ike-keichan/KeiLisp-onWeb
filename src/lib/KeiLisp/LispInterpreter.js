@@ -135,9 +135,9 @@ export class LispInterpreter extends Object
         aList.push('gsave-jpeg');
         aList.push('gsave-png');
         aList.push('gscale');
-        aList.push('gshadow-blur')
-        aList.push('gshadow-color')
-        aList.push('gshadow-offsetx')
+        aList.push('gshadow-blur');
+        aList.push('gshadow-color');
+        aList.push('gshadow-offsetx');
         aList.push('gshadow-offsety');
         aList.push('gsleep');
         aList.push('gstart-path');
@@ -146,6 +146,10 @@ export class LispInterpreter extends Object
         aList.push('gstroke-rect');
         aList.push('gstroke-text');
         aList.push('gstroke-tri');
+        aList.push('gtext-align');
+        aList.push('gtext-dire');
+        aList.push('gtext-font');
+        aList.push('gtext-line');
         aList.push('gtranslate');
         aList.push('grect');
         aList.push('grotate');
