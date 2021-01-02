@@ -50,7 +50,7 @@ To use these functions, you must first call [(gopen)](#gopen) to bring up the ca
 + [gtext-align](#gtext-align)
 + [gtext-dire](#gtext-dire)
 + [gtext-font](#gtext-font)
-+ [gtext-line](gtext-line)
++ [gtext-line](#gtext-line)
 + [gtranslate](#gtranslate)
 + [grect](#grect)
 + [grotate](#grotate)
@@ -803,7 +803,7 @@ t
 ```
 
 ### gtext-line
-****
+**(gtext-line X)**
 Function to specify the line of text.
 X can be specified as "top", "hanging", "middle", "alphabetic", "ideographic" or "bottom".
 
