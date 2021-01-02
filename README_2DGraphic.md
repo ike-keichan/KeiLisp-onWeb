@@ -36,23 +36,23 @@ To use these functions, you must first call [(gopen)](#gopen) to bring up the ca
 + [gsave-jpeg](#gsave-png)
 + [gsave-png](#gsave-jpeg)
 + [gscale](#gscale)
-+ [gshadow-blur]()
++ [gshadow-blur](#gshadow-blur)
 + [gshadow-color](#gshadow-color)
-+ [gshadow-offsetx]()
-+ [gshadow-offsety]()
++ [gshadow-offsetx](#gshadow-offsetx)
++ [gshadow-offsety](#gshadow-offsety)
 + [gsleep](#gsleep)
 + [gstart-path](#gstart-path)
-+ [gstroke]()
++ [gstroke](#gstroke)
 + [gstroke-color](#gstroke-color)
 + [gstroke-rect](#gstroke-rect)
 + [gstroke-text](#gstroke-text)
 + [gstroke-tri](#gstroke-tri)
-+ [gtext-align]()
-+ [gtext-dire]()
-+ [gtext-font]()
-+ [gtext-line]()
-+ [gtranslate]()
-+ [grect]()
++ [gtext-align](#gtext-align)
++ [gtext-dire](#gtext-dire)
++ [gtext-font](#gtext-font)
++ [gtext-line](gtext-line)
++ [gtranslate](#gtranslate)
++ [grect](#grect)
 + [grotate](#grotate)
 
 
@@ -145,6 +145,20 @@ t
 t
 t
 t
+t
+```
+
+## gclear
+**(gclear)**
+Function to clear the canvas.
+
+```
+>> (gopen)
+canvas size, width :600 height :300
+t
+>> (gfill-rect 100 100 100 100)
+t
+>> (gclear)
 t
 ```
 
@@ -548,11 +562,13 @@ t
 
 ### gshadow-blur
 **(gshadow-blur X)**
+Function to specify the degree of shadow blur when drawing.
 
 ```
 >> (gopen)
 canvas size, width :600 height :300
 t
+>> (gshadow-color "red")(gshadow-blur 15)(gshadow-offsetx 10)(gshadow-offsety 10)(gfill-rect 20 20 100 100)
 ```
 
 ### gshadow-color
@@ -576,19 +592,29 @@ t
 
 ### gshadow-offsetx
 **(gshadow-offsetx X)**
+Function to specify the x coordinate offset of the shadow when drawing.
 
 ```
 >> (gopen)
 canvas size, width :600 height :300
 t
+>> (gshadow-color "red")(gshadow-offsetx 10)(gfill-rect 20 20 100 100) 
+t
+t
+t
 ```
 
 ### gshadow-offsety
 **(gshadow-offsety X)**
+Function to specify the y coordinate offset of the shadow when drawing.
 
 ```
 >> (gopen)
 canvas size, width :600 height :300
+t
+>> (gshadow-color "red")(gshadow-offsety 10)(gfill-rect 20 20 100 100) 
+t
+t
 t
 ```
 
@@ -706,38 +732,97 @@ t
 ```
 
 ### gtext-align
-****
+**(gtext-align X)**
+Function to specify the align of text.
+X can be specified as "center", "right", or "left".
+
 
 ```
 >> (gopen)
 canvas size, width :600 height :300
+t
+>> (gtext-font "48px serif")
+t
+>> (gtext-align "left")(gfill-text "left" 300 50)
+t
+t
+>> (gtext-align "center")(gfill-text "center" 300 100)
+t
+t
+>> (gtext-align "right")(gfill-text "right" 300 150)
+t
 t
 ```
 
 ### gtext-dire
-****
+**(gtext-dire X)**
+Function to specify the direction of text.
+When the value of X is 0, it is normal, when it is greater than 0, it is "rtl", and when it is less than 0, it is "ltr".
 
 ```
 >> (gopen)
 canvas size, width :600 height :300
 t
+>> (gtext-font "48px serif")
+t
+>>(gtext-dire 0)(gfill-text "Hello World" 300 50)
+t
+t
+>> (gtext-dire 1)(gfill-text "Hello World" 300 100)
+t
+t
+>> (gtext-dire -1)(gfill-text "Hello World" 300 150)
+t
+t
 ```
 
 ### gtext-font
-****
+**(gtext-font X)**
+Function to specify the font of text.
+X can be a string of fonts and sizes that can be specified by a web browser.
 
 ```
 >> (gopen)
 canvas size, width :600 height :300
+t
+>> (gtext-font "48px serif")(gfill-text "京都 あい アイ 123 abc" 10 50)
+t
+t
+>> (gtext-font "48px sans-serif")(gfill-text "京都 あい アイ 123 abc" 10 100)
+t
+t
+>> (gtext-font "48px monospace")(gfill-text "京都 あい アイ 123 abc" 10 150)
+t
+t
+>> (gtext-font "bold 48px serif")(gfill-text "京都 あい アイ 123 abc" 10 200)
+t
+t
+>> (gtext-font "italic 48px serif")(gfill-text "京都 あい アイ 123 abc" 10 250)
+t
 t
 ```
 
 ### gtext-line
 ****
+Function to specify the line of text.
+X can be specified as "top", "hanging", "middle", "alphabetic", "ideographic" or "bottom".
 
 ```
 >> (gopen)
 canvas size, width :600 height :300
+t
+>> (setq y 30)(gtext-font "30px serif")
+t
+t
+>> (dolist (each '("top" "hanging" "middle" "alphabetic" "ideographic" "bottom") t) 
+	(gstart-path)
+	(gmove-to 0 y)
+	(gline-to 550 y)
+	(gstroke)
+	(gtext-line each)
+	(gfill-text each 0 y)
+	(setq y (+ y 50))
+)
 t
 ```
 
@@ -749,14 +834,34 @@ Function to move the origin of the canvas。
 >> (gopen)
 canvas size, width :600 height :300
 t
+>> (gfill-rect 0 0 100 100)
+t
+>> (gtranslate 200 200)
+t
+>> (gfill-rect 0 0 100 100)
+t
 ```
 
 ### grect
-****
+**(grect x y width height)**
+Function to draw a rectangle.
+This function is a path function. 
+The path function allows you to specify the line to be drawn before deciding to draw it.
+Path function is necessary to call [(gstart-point)](#gstart-path) in advance.
 
 ```
 >> (gopen)
 canvas size, width :600 height :300
+t
+>> (gstart-path)(grect 20 20 100 100)(gfill)(gfinish-path)
+t
+t
+t
+t
+>> (gstart-path)(grect 20 170 150 100)(gstroke)(gfinish-path)
+t
+t
+t
 t
 ```
 
