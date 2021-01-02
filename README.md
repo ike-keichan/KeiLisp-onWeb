@@ -62,7 +62,7 @@ KeiLisp-onWeb@0.1.0 ~/KeiLisp-onWeb
 + [Atom](./README_Atom.md)
 + [Cons](./README_Cons.md)
 + [Function](./README_Function.md)
-+ [2D Graphic Function](./README_2DGraphicFunction.md)
++ [2D Graphic Function](./README_2DGraphic.md)
 
 ## Quick start
 The interpreter can be started right [here](https://ike-keichan.github.io/KeiLisp-onWeb/).
