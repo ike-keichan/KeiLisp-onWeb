@@ -90,7 +90,7 @@ tasu
 15
 ```
 
-### Example 6 rotate
+### example 6 rotate
 ```
 >> (defun rotate (x n) 
 	(cond ((= n 0) x) 
@@ -111,7 +111,7 @@ rotate
 (1 2 3 4 5 6 7 8 9)
 ```
 
-### Example7 flattern
+### example7 flattern
 ```
 >> (defun flatten (x) 
 	(cond ((null x) nil)
