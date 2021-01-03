@@ -1,5 +1,5 @@
 # KeiLisp-onWeb
-（this document fix： 2020/01/03 create: 2020/12/04）<br>
+（this document fix： 2020/01/03 create: 2020/01/03）<br>
 
 ## Reference
 + [Atom](./README_Atom.md)
@@ -8,8 +8,8 @@
 + [2D Graphic Function](./README_2DGraphic.md)
 
 ## Example
-+ [Basic Functions](./README_Example)
-+ [2D Graphic Functions](./README_Example)
++ [Basic Functions](./README_Example#basic-funcitons-example)
++ [2D Graphic Functions](./README_Example#2d-graphic-functions-example)
 
 ### Basic Funcitons Example 
 #### example1

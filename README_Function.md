@@ -7,6 +7,10 @@
 + [Function](./README_Function.md)
 + [2D Graphic Function](./README_2DGraphic.md)
 
+## Example
++ [Basic Functions](./README_Example#basic-funcitons-example)
++ [2D Graphic Functions](./README_Example#2d-graphic-functions-example)
+
 ## Function
 In this interpreter the following functions are defined.
 
