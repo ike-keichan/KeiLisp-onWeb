@@ -8,8 +8,8 @@
 + [2D Graphic Function](./README_2DGraphic.md)
 
 ## Example
-+ [Basic Functions](./README_Example#basic-funcitons-example)
-+ [2D Graphic Functions](./README_Example#2d-graphic-functions-example)
++ [Basic Functions](./README_Example.md#basic-funcitons-example)
++ [2D Graphic Functions](./README_Example.md#2d-graphic-functions-example)
 
 ### Basic Funcitons Example 
 #### example1
@@ -88,6 +88,46 @@ nil
 tasu
 >> (tasu 7 8)
 15
+```
+
+### Example 6 rotate
+```
+>> (defun rotate (x n) 
+	(cond ((= n 0) x) 
+		((> n 0) (rotate (append (cdr x) (cons (car x) nil)) (- n 1))) 
+		((< n 0) (rotate x (+ (length x) n))) 
+	) 
+)
+rotate
+>> (rotate '(1 2 3 4 5 6 7 8 9) 2)
+(3 4 5 6 7 8 9 1 2)
+>> (rotate '(1 2 3 4 5 6 7 8 9) -3)
+(7 8 9 1 2 3 4 5 6)
+>> (rotate '(1 2 3 4 5 6 7 8 9) 9)
+(1 2 3 4 5 6 7 8 9)
+>> (rotate '(1 2 3 4 5 6 7 8 9) -18)
+(1 2 3 4 5 6 7 8 9)
+>> (rotate '(1 2 3 4 5 6 7 8 9) 0)
+(1 2 3 4 5 6 7 8 9)
+```
+
+### Example7 flattern
+```
+>> (defun flatten (x) 
+	(cond ((null x) nil)
+		((atom x) (list x)) 
+		(t (append (flatten (car x)) (flatten (cdr x)))) 
+	) 
+)
+flatten
+>> (flatten '(1 (2 (3 4) (5) (6 7) 8) 9))
+(1 2 3 4 5 6 7 8 9)
+>> (flatten '(a (b (c (d e))) f (g h) i))
+(a b c d e f g h i)
+>> (flatten '((1 . 2) ((3 4) . 5) 6))
+(1 2 3 4 5 6)
+>> (flatten '(((k (r s t u)) g (m)) c d ((n) (o (v w x y z) q))))
+(k r s t u g m c d n o v w x y z q)
 ```
 
 ### 2D Graphic Functions Example

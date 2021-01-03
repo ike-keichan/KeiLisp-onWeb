@@ -84,8 +84,8 @@ $ open http://localhost:8080/
 ```
 
 ## Example
-+ [Basic Functions](./README_Example#basic-funcitons-example)
-+ [2D Graphic Functions](./README_Example#2d-graphic-functions-example)
++ [Basic Functions](./README_Example.md#basic-funcitons-example)
++ [2D Graphic Functions](./README_Example.md#2d-graphic-functions-example)
 
 ---
 ## Others
