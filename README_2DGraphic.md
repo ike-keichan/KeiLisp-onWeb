@@ -736,7 +736,6 @@ t
 Function to specify the align of text.
 X can be specified as "center", "right", or "left".
 
-
 ```
 >> (gopen)
 canvas size, width :600 height :300
