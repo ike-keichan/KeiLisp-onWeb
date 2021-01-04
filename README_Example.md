@@ -20,6 +20,13 @@
 -1.2
 >> "a"
 a
+>> a
+I could find no variable binding for a
+nil
+>> (setq a 10)
+t
+>> a
+10
 >> nil
 nil
 ```
