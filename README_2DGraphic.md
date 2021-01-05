@@ -238,7 +238,7 @@ X can be a color string, a color code, three numbers for RGB, or four numbers fo
 >> (gopen)
 canvas size, width :600 height :300
 t
->> (gfill-color "orage")
+>> (gfill-color "orange")
 t
 >> (gfill-color "#FFA500")
 t
@@ -688,7 +688,7 @@ X can be a color string, a color code, three numbers for RGB, or four numbers fo
 >> (gopen)
 canvas size, width :600 height :300
 t
->> (gstroke-color "orage")
+>> (gstroke-color "orange")
 t
 >> (gstroke-color "#FFA500")
 t
