@@ -1343,7 +1343,7 @@ export class Graphist extends Object
         {
             try
             {
-                if(args.length() == 1)
+                if(args.length() >= 1)
                 {
                     let aColor = this.selectColor(args);
                     this.ctx.strokeStyle = aColor;
