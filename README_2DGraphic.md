@@ -301,7 +301,7 @@ t
 t
 ```
 
-### gImage
+### gimage
 **(gimage url x y)**
 **(gimage url x y width height)**
 Function to draw an image.
