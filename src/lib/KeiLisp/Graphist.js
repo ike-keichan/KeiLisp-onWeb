@@ -909,7 +909,7 @@ export class Graphist extends Object
                 this.ctx.fillRect(0, 0, this.canvasWidth, this.canvasHeight);
                 this.ctx.fillStyle = "#000000"
                 this.ctx.save();
-                selectPrintFunction()('canvas size, width :' + this.canvasWidth + ' height :' + this.canvasHeight);
+                selectPrintFunction()('canvas size, width : 600 height : 300');
                 return InterpretedSymbol.of('t');
             }
             catch(e)
