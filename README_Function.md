@@ -1079,17 +1079,6 @@ Function to answer the list of list L inverse order.
 (9 (2 (3 4) (5) (6 7) 8) 1)
 ```
 
-### rplaca
-**(rplaca X L)**
-Function to bind X to the head of list L.
-
-```
->> (setq a '(1 2 3))
-(1 2 3)
->> (rplaca a 4)
-(4 2 3)
-```
-
 ### round
 **(round X)**
 Function to answer the rounded value of X.
@@ -1103,6 +1092,17 @@ Function to answer the rounded value of X.
 1
 >> (round 1.50)
 2
+```
+
+### rplaca
+**(rplaca X L)**
+Function to bind X to the head of list L.
+
+```
+>> (setq a '(1 2 3))
+(1 2 3)
+>> (rplaca a 4)
+(4 2 3)
 ```
 
 ### rplacd
