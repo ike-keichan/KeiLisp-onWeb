@@ -190,7 +190,7 @@ X can be a color string, a color code, three numbers for RGB, or four numbers fo
 >> (gopen)
 canvas size, width :600 height :300
 t
->> (gcolor "orage")
+>> (gcolor "orange")
 t
 >> (gcolor "#FFA500")
 t
