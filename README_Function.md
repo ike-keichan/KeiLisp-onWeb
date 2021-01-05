@@ -817,7 +817,7 @@ t
 >> (neq 1 1.0)
 nil
 >> (neq 1 "1")
-nil
+t
 >> (neq '(a b) '(a b))
 t
 ```
@@ -838,7 +838,7 @@ t
 >> (nequal 1 1.0)
 nil
 >> (nequal 1 "1")
-nil
+t
 >> (nequal '(a b c) '(a b c))
 nil
 ```
