@@ -1,5 +1,5 @@
 # KeiLisp
-（this document fix： 2020/01/03 create: 2020/01/01）
+（this document fix： 2020/01/05 create: 2020/01/01）
 
 ## Reference
 + [Atom](./README_Atom.md)
@@ -35,7 +35,6 @@ To use these functions, you must first call [(gopen)](#gopen) to bring up the ca
 + [gline-join](#gline-join)
 + [gline-width](#gline-width)
 + [gopen](#gopen)
-<!-- + [gpattern](#gpattern) -->
 + [gquadcurve-to](#gquadcurve-to)
 + [gsave-jpeg](#gsave-png)
 + [gsave-png](#gsave-jpeg)
@@ -58,7 +57,7 @@ To use these functions, you must first call [(gopen)](#gopen) to bring up the ca
 + [gtranslate](#gtranslate)
 + [grect](#grect)
 + [grotate](#grotate)
-
+<!-- + [gpattern](#gpattern) -->
 
 ### galpha
 **(galpha X)**

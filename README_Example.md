@@ -1,5 +1,5 @@
 # KeiLisp
-（this document fix： 2020/01/03 create: 2020/01/03）<br>
+（this document fix： 2020/01/05 create: 2020/01/03）<br>
 
 ## Reference
 + [Atom](./README_Atom.md)
@@ -24,7 +24,7 @@ a
 I could find no variable binding for a
 nil
 >> (setq a 10)
-t
+10
 >> a
 10
 >> nil
